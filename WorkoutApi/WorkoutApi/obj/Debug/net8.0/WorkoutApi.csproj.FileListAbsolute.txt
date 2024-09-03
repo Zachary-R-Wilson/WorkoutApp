@@ -1,6 +1,5 @@
 C:\Users\Steel\Desktop\WorkoutApp\WorkoutApi\WorkoutApi\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\Steel\Desktop\WorkoutApp\WorkoutApi\WorkoutApi\bin\Debug\net8.0\appsettings.json
-C:\Users\Steel\Desktop\WorkoutApp\WorkoutApi\WorkoutApi\bin\Debug\net8.0\appsettings.Production.json
 C:\Users\Steel\Desktop\WorkoutApp\WorkoutApi\WorkoutApi\bin\Debug\net8.0\WorkoutApi.exe
 C:\Users\Steel\Desktop\WorkoutApp\WorkoutApi\WorkoutApi\bin\Debug\net8.0\WorkoutApi.deps.json
 C:\Users\Steel\Desktop\WorkoutApp\WorkoutApi\WorkoutApi\bin\Debug\net8.0\WorkoutApi.runtimeconfig.json
@@ -51,6 +50,7 @@ C:\Users\Steel\Desktop\WorkoutApp\WorkoutApi\WorkoutApi\obj\Debug\net8.0\Workout
 C:\Users\Steel\Desktop\WorkoutApp\WorkoutApi\WorkoutApi\obj\Debug\net8.0\WorkoutApi.csproj.CoreCompileInputs.cache
 C:\Users\Steel\Desktop\WorkoutApp\WorkoutApi\WorkoutApi\obj\Debug\net8.0\WorkoutApi.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Steel\Desktop\WorkoutApp\WorkoutApi\WorkoutApi\obj\Debug\net8.0\WorkoutApi.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Steel\Desktop\WorkoutApp\WorkoutApi\WorkoutApi\obj\Debug\net8.0\WorkoutApi.sourcelink.json
 C:\Users\Steel\Desktop\WorkoutApp\WorkoutApi\WorkoutApi\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\Steel\Desktop\WorkoutApp\WorkoutApi\WorkoutApi\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\Steel\Desktop\WorkoutApp\WorkoutApi\WorkoutApi\obj\Debug\net8.0\staticwebassets\msbuild.WorkoutApi.Microsoft.AspNetCore.StaticWebAssets.props
