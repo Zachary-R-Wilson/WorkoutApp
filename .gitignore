@@ -1,0 +1,57 @@
+# Build Folders
+bin/
+obj/
+
+# User-specific files
+.vscode/
+.idea/
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Logs
+*.log
+*.tlg
+*.ide.stream
+
+# Dependency Folders
+packages/
+node_modules/
+
+# Environment and configuration
+.env
+.env.*
+
+# VS Code settings
+.vscode/
+
+# Rider IDE settings
+.idea/
+
+# Visual Studio specific files
+.vscode/
+*.sln.ide
+
+# macOS files
+.DS_Store
+
+# Windows thumbnail cache files
+Thumbs.db
+Thumbs.db.old
+
+# Resharper settings
+*.DotSettings.user
+
+# C# directories
+Backup/
+BackupSession/
+TestResults/
+
+# Environment-specific configuration files
+appsettings.Development.json
+appsettings.Production.json
+
+# Specific SQL files
+init.sql
