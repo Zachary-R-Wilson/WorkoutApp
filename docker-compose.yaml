@@ -7,7 +7,7 @@ services:
       - DB_USERID=${DB_USERID}
       - DB_PASSWORD=${DB_PASSWORD}
     ports:
-      - "5050:5050"
+      - "8080:8080"
     networks:
       - workoutnetwork
     depends_on:
