@@ -1,8 +1,33 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Data.SqlClient;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using WorkoutApi.Repositories;
 using WorkoutApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var configuration = new ConfigurationBuilder()
+    .SetBasePath(builder.Environment.ContentRootPath)
+    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+    .Build();
+
+//Add JWT authentication
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER"),
+            ValidAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE"),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_SECRETKEY")))
+        };
+    });
 
 // Register the SQL connection
 builder.Services.AddScoped<SqlConnection>(sp =>
@@ -20,9 +45,14 @@ builder.Services.AddScoped<SqlConnection>(sp =>
 });
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add(new AuthorizeFilter());
+});
 builder.Services.AddScoped<IHelloWorldRepository, HelloWorldRepository>();
 builder.Services.AddScoped<IHelloWorldService, HelloWorldService>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -37,6 +67,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using WorkoutApi.Services;
 
@@ -14,7 +15,8 @@ namespace WorkoutApi.Controllers
         {
             _helloWorldService = helloWorldService;
         }
-
+        
+        [Authorize]
         [HttpGet(Name = "GetHelloWorlds")]
         public IActionResult GetHelloWorlds()
         {
@@ -25,7 +27,7 @@ namespace WorkoutApi.Controllers
             }
             catch (SqlException e)
             {
-                return Ok(e.ToString());
+                return StatusCode(StatusCodes.Status500InternalServerError, e.ToString());
             }
         }
     }

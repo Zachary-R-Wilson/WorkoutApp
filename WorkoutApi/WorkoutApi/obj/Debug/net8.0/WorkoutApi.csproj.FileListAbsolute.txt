@@ -65,3 +65,5 @@ C:\Users\Steel\Desktop\WorkoutApp\WorkoutApi\WorkoutApi\obj\Debug\net8.0\refint\
 C:\Users\Steel\Desktop\WorkoutApp\WorkoutApi\WorkoutApi\obj\Debug\net8.0\WorkoutApi.pdb
 C:\Users\Steel\Desktop\WorkoutApp\WorkoutApi\WorkoutApi\obj\Debug\net8.0\WorkoutApi.genruntimeconfig.cache
 C:\Users\Steel\Desktop\WorkoutApp\WorkoutApi\WorkoutApi\obj\Debug\net8.0\ref\WorkoutApi.dll
+C:\Users\Steel\Desktop\WorkoutApp\WorkoutApi\WorkoutApi\bin\Debug\net8.0\BCrypt.Net-Next.dll
+C:\Users\Steel\Desktop\WorkoutApp\WorkoutApi\WorkoutApi\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

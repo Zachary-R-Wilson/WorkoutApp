@@ -6,8 +6,12 @@ services:
       - DB_INITIALCATALOG=${DB_INITIALCATALOG}
       - DB_USERID=${DB_USERID}
       - DB_PASSWORD=${DB_PASSWORD}
+      - JWT_ISSUER=${JWT_ISSUER}
+      - JWT_AUDIENCE=${JWT_AUDIENCE}
+      - JWT_SECRETKEY=${JWT_SECRETKEY}
     ports:
       - "8080:8080"
+      - "8081:8081"
     networks:
       - workoutnetwork
     depends_on:

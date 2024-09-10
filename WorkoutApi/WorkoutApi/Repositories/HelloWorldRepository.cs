@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using WorkoutApi.Models;
+using WorkoutApi.Repositories.Sql;
 
 namespace WorkoutApi.Repositories
 {
@@ -15,9 +16,8 @@ namespace WorkoutApi.Repositories
         public IEnumerable<HelloWorld> GetHelloWorlds()
         {
             var helloWorldList = new List<HelloWorld>();
-            const string sql = "SELECT * FROM HelloWorld";
 
-            using (SqlCommand command = new SqlCommand(sql, _connection))
+            using (SqlCommand command = new SqlCommand(LoadSql.LoadSqlQuery("HelloWorld.sql"), _connection))
             {
                 _connection.Open();
                 using (SqlDataReader reader = command.ExecuteReader())

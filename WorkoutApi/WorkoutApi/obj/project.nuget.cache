@@ -1,11 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "Tau3QJ9T4S447PvUln26FzwCzU9IjF1RnZx0pZQF+7B54rTaNGqBVm1tYdebEjQYciPjT41NnNnWlYuRoCMoHQ==",
+  "dgSpecHash": "Ttow0yeCC5mG+o7zGf1ebZ7OhrxfT59DS5+s8lGSBGdlh9ivt0lId31v4+oCrpK/OdhbyYR/ah6GHpOV//5qfw==",
   "success": true,
   "projectFilePath": "C:\\Users\\Steel\\Desktop\\WorkoutApp\\WorkoutApi\\WorkoutApi\\WorkoutApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Steel\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\Steel\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
+    "C:\\Users\\Steel\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
+    "C:\\Users\\Steel\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.8\\microsoft.aspnetcore.authentication.jwtbearer.8.0.8.nupkg.sha512",
     "C:\\Users\\Steel\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\Steel\\.nuget\\packages\\microsoft.data.sqlclient\\6.0.0-preview1.24240.8\\microsoft.data.sqlclient.6.0.0-preview1.24240.8.nupkg.sha512",
     "C:\\Users\\Steel\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\6.0.0-preview1.24226.4\\microsoft.data.sqlclient.sni.runtime.6.0.0-preview1.24226.4.nupkg.sha512",
