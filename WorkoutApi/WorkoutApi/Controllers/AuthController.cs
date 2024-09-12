@@ -31,7 +31,7 @@ namespace WorkoutApi.Controllers
                     return Unauthorized("Invalid credentials");
                 }
 
-                return Ok(new { AccessToken = new JwtSecurityTokenHandler().WriteToken(accessToken) });
+                return Ok(new { AccessToken = accessToken });
             }
             catch (SqlException e)
             {
@@ -52,7 +52,7 @@ namespace WorkoutApi.Controllers
                     return Unauthorized("Invalid credentials");
                 }
 
-                return Ok(new { AccessToken = new JwtSecurityTokenHandler().WriteToken(accessToken) });
+                return Ok(new { AccessToken = accessToken });
             }
             catch (SqlException e)
             {

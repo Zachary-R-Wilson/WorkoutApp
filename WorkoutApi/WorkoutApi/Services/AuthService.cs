@@ -17,7 +17,7 @@ namespace WorkoutApi.Services
         }
 
         /// <inheritdoc />
-        public JwtSecurityToken? AuthenticateUser(LoginModel credentials)
+        public string? AuthenticateUser(LoginModel credentials)
         {
             Guid? userKey = _authRepository.AuthenticateUser(credentials);
             if(userKey != null)
@@ -29,7 +29,7 @@ namespace WorkoutApi.Services
         }
 
         /// <inheritdoc />
-        public JwtSecurityToken? RegisterUser(LoginModel credentials)
+        public string? RegisterUser(LoginModel credentials)
         {
             Guid? userKey = _authRepository.RegisterUser(credentials);
             if (userKey != null)
@@ -43,9 +43,9 @@ namespace WorkoutApi.Services
         /// <summary>
         /// Generates a JwtToken so the valid user can access the api
         /// </summary>
-        /// <param name="username">username</param>
+        /// <param name="userKey">The Guid that designates which user this is.</param>
         /// <returns>JwtToken</returns>
-        private JwtSecurityToken GenerateAccessToken(Guid? userKey)
+        private string GenerateAccessToken(Guid? userKey)
         {
             if (userKey == null) throw new ArgumentNullException(nameof(userKey));
 
@@ -63,7 +63,8 @@ namespace WorkoutApi.Services
                     SecurityAlgorithms.HmacSha256)
             );
 
-            return token;
+            var tokenHandler = new JwtSecurityTokenHandler();
+            return tokenHandler.WriteToken(token);
         }
     }
 }

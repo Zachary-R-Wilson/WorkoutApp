@@ -12,13 +12,13 @@ namespace WorkoutApi.Services
         /// </summary>
         /// <param name="credentials">LoginModel with credentials.</param>
         /// <returns>JWT if the user can be authenticated otherwise is null.</returns>
-        JwtSecurityToken? AuthenticateUser(LoginModel credentials);
+        string? AuthenticateUser(LoginModel credentials);
 
         /// <summary>
         /// Registers the User
         /// </summary>
         /// <param name="credentials">LoginModel with credentials.</param>
         /// <returns>JWT or null if the user can be registered otherwise is null.</returns>
-        JwtSecurityToken? RegisterUser(LoginModel credentials);
+        string? RegisterUser(LoginModel credentials);
     }
 }

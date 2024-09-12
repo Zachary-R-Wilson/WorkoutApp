@@ -44,17 +44,27 @@ builder.Services.AddScoped<SqlConnection>(sp =>
     return new SqlConnection(builder.ConnectionString);
 });
 
-// Add services to the container.
-builder.Services.AddControllers(options =>
+// Add Cors policy
+builder.Services.AddCors(options =>
 {
-    options.Filters.Add(new AuthorizeFilter());
+    options.AddPolicy("AllowAll", builder =>
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader());
 });
+
 builder.Services.AddScoped<IHelloWorldRepository, HelloWorldRepository>();
 builder.Services.AddScoped<IHelloWorldService, HelloWorldService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Add services to the container.
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add(new AuthorizeFilter());
+});
 
 var app = builder.Build();
 
@@ -69,7 +79,10 @@ app.UseHttpsRedirection();
 
 app.UseRouting();
 
+app.UseCors("AllowAll");
+
 app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllers();
