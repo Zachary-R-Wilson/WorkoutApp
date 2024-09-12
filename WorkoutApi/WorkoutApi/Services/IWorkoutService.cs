@@ -8,6 +8,12 @@ namespace WorkoutApi.Services
         /// Creates the workout.
         /// </summary>
         /// <param name="workoutModel">The data stored in the workout.</param>
-        void CreateWorkout(WorkoutModel workoutModel);
+        void CreateWorkout(Guid userKey, WorkoutModel workoutModel);
+
+        /// <summary>
+        /// Deletes a workout.
+        /// </summary>
+        /// <param name="workoutKey">The guid of the workout being deleted.</param>
+        void DeleteWorkout(Guid workoutKey);
     }
 }

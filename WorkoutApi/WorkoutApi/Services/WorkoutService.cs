@@ -13,9 +13,15 @@ namespace WorkoutApi.Services
         }
 
         /// <inheritdoc />
-        public void CreateWorkout(WorkoutModel workoutModel)
+        public void CreateWorkout(Guid userKey, WorkoutModel workoutModel)
         {
-            _workoutRepository.CreateWorkout(workoutModel);
+            _workoutRepository.CreateWorkout(userKey, workoutModel);
+        }
+
+        /// <inheritdoc />
+        public void DeleteWorkout(Guid workoutKey)
+        {
+            _workoutRepository.DeleteWorkout(workoutKey);
         }
     }
 }

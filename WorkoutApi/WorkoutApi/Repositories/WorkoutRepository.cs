@@ -14,25 +14,29 @@ namespace WorkoutApi.Repositories
         }
 
         /// <inheritdoc />
-        public void CreateWorkout(WorkoutModel model)
+        public void CreateWorkout(Guid userKey, WorkoutModel model)
         {
-            Guid? workoutKey = null;
-
-            using (SqlCommand command = new SqlCommand("CreateWorkout", _connection))
+            if (_connection.State != ConnectionState.Open)
             {
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add(new SqlParameter("@WorkoutName", SqlDbType.NVarChar, 254) { Value = model.Name });
                 _connection.Open();
-                object result = command.ExecuteScalar();
-                _connection.Close();
-
-                workoutKey = (Guid)result;
             }
 
             using (SqlTransaction transaction = _connection.BeginTransaction())
             {
                 try
                 {
+                    Guid? workoutKey = null;
+
+                    using (SqlCommand command = new SqlCommand("CreateWorkout", _connection, transaction))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add(new SqlParameter("@UserKey", SqlDbType.UniqueIdentifier) { Value = userKey });
+                        command.Parameters.Add(new SqlParameter("@WorkoutName", SqlDbType.NVarChar, 256) { Value = model.Name });
+                        object result = command.ExecuteScalar();
+
+                        workoutKey = (Guid)result;
+                    }
+
                     model.Days.Keys.ToList().ForEach(dayName =>
                     {
                         Guid dayKey = CreateDay(workoutKey, dayName, transaction);
@@ -52,7 +56,21 @@ namespace WorkoutApi.Repositories
                 }
             }
         }
-        
+
+        /// <inheritdoc />
+        public void DeleteWorkout(Guid workoutKey)
+        {
+            using (SqlCommand command = new SqlCommand("DeleteWorkout", _connection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("@WorkoutKey", SqlDbType.UniqueIdentifier) { Value = workoutKey });
+
+                _connection.Open();
+                command.ExecuteNonQuery();
+                _connection.Close();
+            }
+        }
+
         /// <summary>
         /// Creates a Day in the database
         /// </summary>
@@ -66,7 +84,7 @@ namespace WorkoutApi.Repositories
             {
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.Add(new SqlParameter("@WorkoutKey", SqlDbType.UniqueIdentifier) { Value = workoutKey });
-                command.Parameters.Add(new SqlParameter("@DayName", SqlDbType.NVarChar, 254) { Value = dayName });
+                command.Parameters.Add(new SqlParameter("@DayName", SqlDbType.NVarChar, 256) { Value = dayName });
                 object result = command.ExecuteScalar();
                 return (Guid)result;
             }
@@ -85,8 +103,8 @@ namespace WorkoutApi.Repositories
             {
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.Add(new SqlParameter("@DayKey", SqlDbType.UniqueIdentifier) { Value = dayKey });
-                command.Parameters.Add(new SqlParameter("@ExerciseName", SqlDbType.NVarChar, 254) { Value = exercise.Name });
-                command.Parameters.Add(new SqlParameter("@ExerciseReps", SqlDbType.NVarChar, 254) { Value = exercise.Reps });
+                command.Parameters.Add(new SqlParameter("@ExerciseName", SqlDbType.NVarChar, 256) { Value = exercise.Name });
+                command.Parameters.Add(new SqlParameter("@ExerciseReps", SqlDbType.NVarChar, 256) { Value = exercise.Reps });
                 command.Parameters.Add(new SqlParameter("@ExerciseSets", SqlDbType.Int) { Value = exercise.Sets });
 
                 command.ExecuteNonQuery();

@@ -18,13 +18,28 @@ namespace WorkoutApi.Controllers
         }
 
         [Authorize]
-        [HttpPost(Name = "CreateWorkout")]
-        public IActionResult CreateWorkout([FromBody] WorkoutModel workoutModel)
+        [HttpPost("CreateWorkout/{userKey:guid}")]
+        public IActionResult CreateWorkout(Guid userKey, [FromBody] WorkoutModel workoutModel)
         {
             try
             {
-                _workoutService.CreateWorkout(workoutModel);
+                _workoutService.CreateWorkout(userKey, workoutModel);
                 return Ok("Workout Successfully Created");
+            }
+            catch (SqlException e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.ToString());
+            }
+        }
+
+        [Authorize]
+        [HttpPost("DeleteWorkout/{workoutKey:guid}")]
+        public IActionResult DeleteWorkout(Guid workoutKey)
+        {
+            try
+            {
+                _workoutService.DeleteWorkout(workoutKey);
+                return Ok("Workout Successfully Deleted");
             }
             catch (SqlException e)
             {
