@@ -23,5 +23,17 @@ namespace WorkoutApi.Services
         {
             _workoutRepository.DeleteWorkout(workoutKey);
         }
+
+        /// <inheritdoc />
+        public WorkoutModel GetWorkout(Guid WorkoutKey)
+        {
+            return _workoutRepository.GetWorkout(WorkoutKey);
+        }
+
+        /// <inheritdoc />
+        public WorkoutCollection GetAllWorkouts(Guid userKey) 
+        {
+            return _workoutRepository.GetAllWorkouts(userKey);
+        }
     }
 }

@@ -71,6 +71,99 @@ namespace WorkoutApi.Repositories
             }
         }
 
+        /// <inheritdoc />
+        public WorkoutModel GetWorkout(Guid workoutKey)
+        {
+            using (SqlCommand command = new SqlCommand("GetWorkout", _connection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("@WorkoutKey", SqlDbType.UniqueIdentifier) { Value = workoutKey });
+                _connection.Open();
+
+                WorkoutModel workout = null;
+                var daysDictionary = new Dictionary<string, List<Exercise>>();
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        if (workout == null)
+                        {
+                            workout = new WorkoutModel
+                            {
+                                Name = reader.GetString(0),
+                                Days = daysDictionary
+                            };
+                        }
+
+                        string dayName = reader.GetString(1);
+                        string exerciseName = reader.GetString(2);
+                        string reps = reader.GetString(3);
+                        int sets = reader.GetInt32(4);
+
+                        if (!daysDictionary.ContainsKey(dayName))
+                        {
+                            daysDictionary[dayName] = new List<Exercise>();
+                        }
+
+                        daysDictionary[dayName].Add(new Exercise
+                        {
+                            Name = exerciseName,
+                            Reps = reps,
+                            Sets = sets
+                        });
+                    }
+                }
+
+                _connection.Close();
+
+                if (workout == null)
+                {
+                    throw new Exception("Workout Not Found");
+                }
+
+                return workout;
+            }
+        }
+
+        /// <inheritdoc />
+        public  WorkoutCollection GetAllWorkouts(Guid userKey) 
+        {
+            using (SqlCommand command = new SqlCommand("GetAllWorkouts", _connection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("@UserKey", SqlDbType.UniqueIdentifier) { Value = userKey });
+                _connection.Open();
+
+                WorkoutCollection workoutCollection = new WorkoutCollection();
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Guid workoutKey = reader.GetGuid(0);
+                        string workoutName = reader.GetString(1);
+                        string dayName = reader.GetString(2);
+
+                        if (!workoutCollection.Workouts.ContainsKey(workoutName))
+                        {
+                            workoutCollection.Workouts[workoutName] = new WorkoutInfo
+                            {
+                                WorkoutKey = workoutKey,
+                                Days = new List<string>()
+                            };
+                        }
+
+                        workoutCollection.Workouts[workoutName].Days.Add(dayName);
+                    }
+                }
+
+                _connection.Close();
+
+                return workoutCollection;
+            }
+        }
+
         /// <summary>
         /// Creates a Day in the database
         /// </summary>

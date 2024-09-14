@@ -46,5 +46,35 @@ namespace WorkoutApi.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e.ToString());
             }
         }
+
+        [Authorize]
+        [HttpGet("GetWorkout/{workoutKey:guid}")]
+        public IActionResult GetWorkout(Guid workoutKey)
+        {
+            try
+            {
+                WorkoutModel workout = _workoutService.GetWorkout(workoutKey);
+                return Ok(workout);
+            }
+            catch (SqlException e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.ToString());
+            }
+        }
+
+        [Authorize]
+        [HttpGet("GetAllWorkouts/{UserKey:guid}")]
+        public IActionResult GetAllWorkouts(Guid UserKey)
+        {
+            try
+            {
+                WorkoutCollection workout = _workoutService.GetAllWorkouts(UserKey);
+                return Ok(workout);
+            }
+            catch (SqlException e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.ToString());
+            }
+        }
     }
 }

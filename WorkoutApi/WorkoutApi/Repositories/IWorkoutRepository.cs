@@ -15,5 +15,19 @@ namespace WorkoutApi.Repositories
         /// </summary>
         /// <param name="workoutKey">The Guid of the workout</param>
         void DeleteWorkout(Guid workoutKey);
+
+        /// <summary>
+        /// Retrieves a workout model for a given workout guid.
+        /// </summary>
+        /// <param name="WorkoutKey">The specified guid of the workout</param>
+        /// <returns>WorkoutModel with the workout data.</returns>
+        WorkoutModel GetWorkout(Guid WorkoutKey);
+
+        /// <summary>
+        /// Retrieves all relative information for a users workout home screen.
+        /// </summary>
+        /// <param name="userKey">The specified users guid</param>
+        /// <returns>Basic Workout Information for the homescreen.</returns>
+        WorkoutCollection GetAllWorkouts(Guid userKey);
     }
 }
