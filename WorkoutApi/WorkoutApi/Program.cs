@@ -53,8 +53,8 @@ builder.Services.AddCors(options =>
                .AllowAnyHeader());
 });
 
-builder.Services.AddScoped<IHelloWorldRepository, HelloWorldRepository>();
-builder.Services.AddScoped<IHelloWorldService, HelloWorldService>();
+builder.Services.AddScoped<ITrackingRepository, TrackingRepository>();
+builder.Services.AddScoped<ITrackingService, TrackingService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IWorkoutRepository, WorkoutRepository>();

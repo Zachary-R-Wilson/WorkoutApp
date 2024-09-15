@@ -170,7 +170,7 @@ namespace WorkoutApi.Repositories
         /// <param name="workoutKey">The guid of the linked workout.</param>
         /// <param name="dayName">The name of the day being created.</param>
         /// <param name="transaction">The connection to the sql database.</param>
-        /// <returns></returns>
+        /// <returns>The Guid of the day that was created.</returns>
         private Guid CreateDay(Guid? workoutKey, string dayName, SqlTransaction transaction)
         {
             using (SqlCommand command = new SqlCommand("CreateDay", _connection, transaction))
