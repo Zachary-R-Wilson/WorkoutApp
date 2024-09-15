@@ -1,8 +1,0 @@
-﻿IF OBJECT_ID('GetHelloWorld', 'P') IS NOT NULL
-    DROP PROCEDURE GetHelloWorld;
-GO
-CREATE PROCEDURE GetHelloWorld
-AS
-BEGIN
-	SELECT * FROM HelloWorld
-END;
