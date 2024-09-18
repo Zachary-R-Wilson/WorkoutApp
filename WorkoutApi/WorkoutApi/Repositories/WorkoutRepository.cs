@@ -117,10 +117,7 @@ namespace WorkoutApi.Repositories
 
                 _connection.Close();
 
-                if (workout == null)
-                {
-                    throw new Exception("Workout Not Found");
-                }
+                if (workout == null) throw new Exception("Workout Not Found");
 
                 return workout;
             }

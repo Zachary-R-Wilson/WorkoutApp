@@ -29,7 +29,6 @@ namespace WorkoutApi.Repositories
                 {
                     while (reader.Read())
                     {
-
                         string weight = reader.GetString(0);
                         int completedReps = reader.GetInt32(1);
                         int rpe = reader.GetInt32(2);

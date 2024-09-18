@@ -5,24 +5,24 @@ namespace WorkoutApi.Services
 {
     public class TrackingService: ITrackingService
     {
-        private readonly ITrackingRepository _TrackingRepository;
+        private readonly ITrackingRepository _trackingRepository;
 
         public TrackingService(ITrackingRepository trackingRepository)
         {
-            _TrackingRepository = trackingRepository;
+            _trackingRepository = trackingRepository;
         }
 
 
         /// <inheritdoc />
         public TrackingModel GetProgress(Guid dayKey)
         {
-            return _TrackingRepository.GetProgress(dayKey);
+            return _trackingRepository.GetProgress(dayKey);
         }
 
         /// <inheritdoc />
         public void InsertTracking(TrackingModel trackingModel)
         {
-            _TrackingRepository.InsertTracking(trackingModel);
+            _trackingRepository.InsertTracking(trackingModel);
         }
     }
 }

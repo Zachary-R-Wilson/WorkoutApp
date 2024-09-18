@@ -53,6 +53,9 @@ builder.Services.AddCors(options =>
                .AllowAnyHeader());
 });
 
+// Add Service and Repository Layers
+builder.Services.AddScoped<IMaxesRepository, MaxesRepository>();
+builder.Services.AddScoped<IMaxesService, MaxesService>();
 builder.Services.AddScoped<ITrackingRepository, TrackingRepository>();
 builder.Services.AddScoped<ITrackingService, TrackingService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();

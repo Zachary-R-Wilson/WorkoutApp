@@ -2,6 +2,11 @@
 {
     public class TrackingModel
     {
+        public TrackingModel()
+        {
+            Exercises = new Dictionary<string, TrackingInfo>();
+        }
+
         public Dictionary<string, TrackingInfo> Exercises { get; set; }
     }
 
