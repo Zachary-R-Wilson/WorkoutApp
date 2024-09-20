@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ScrollView } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Header } from "@/components/Header";
 import { BottomNav } from "@/components/BottomNav";
@@ -9,51 +9,40 @@ const Separator = () => <View style={styles.separator} />;
 export default function Index() {
   return (
     <SafeAreaView style={styles.container}>
-      <SafeAreaView style={styles.header}>
-        <Header />
-      </SafeAreaView>
+      <Header />
+      <Separator />     
+
+      <ScrollView style={styles.workoutScroll}>
+        <WorkoutSelector workoutName="Push, Pull, Legs" dayName="Leg Day" />
+        <WorkoutSelector workoutName="Push, Pull, Legs" dayName="Leg Day" />
+        <WorkoutSelector workoutName="Push, Pull, Legs" dayName="Leg Day" />
+      </ScrollView>
 
       <Separator />
-
-      {/* needs to be scrollable field */}
-      <View style={styles.workoutView}>
-        <WorkoutSelector />
-      </View>
-
-      <Separator />
-
-      <SafeAreaView style={styles.bottomNav}>
-        <BottomNav />
-      </SafeAreaView>
+      <BottomNav />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#2F4858",
+    paddingHorizontal: 20,
     flex: 1,
-    padding: 20,
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: "#2F4858",
+  },
+
+  workoutScroll: {
+    flex: 1,
   },
 
   workoutView: {
     width: "100%",
   },
 
-  header: {
-    position: "absolute",
-    top: 0,
-  },
-
-  bottomNav: {
-    position: "absolute",
-    bottom: 0,
-  },
-
-  separator: {
-    borderBottomColor: '#737373',
-    borderBottomWidth: 10,
-  },
+	separator: {
+		borderBottomColor: '#CCF6FF',
+		borderBottomWidth: 1,
+		width: "100%",
+		marginVertical: 10,
+	},
 });

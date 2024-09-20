@@ -1,47 +1,86 @@
-import { StyleSheet, Text, View, Button} from "react-native";
+import { StyleSheet, Text, View, Pressable } from "react-native";
+import { Button } from "@/components/Button";
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
-export function WorkoutSelector() {
+export function WorkoutSelector({ workoutName, dayName }: { workoutName: string, dayName: string }) {
 	const Separator = () => <View style={styles.separator} />;
 
   return (
 		<View style={styles.container}>
-			<View style={{ justifyContent: "center", alignItems: "center",}}>
-				<Text style={styles.text}>Workout Name</Text>
+			<View style={styles.workoutContainter}>
+				<Text style={styles.workoutTitle}>{workoutName}</Text>
+				<Pressable style={styles.icon}>
+					<MaterialIcons name="more-horiz" size={37} color="#CCF6FF" />
+				</Pressable>
 			</View>
-      <Separator />
-			<View>
-				<Text style={styles.text}>Day Name</Text>
+
+      		<Separator />
+
+			<View style={styles.dayContainter}>
+				<Text style={styles.text}>{dayName}</Text>
+
 				<Button
-					onPress={() => {console.log("Start Workout Button Pressed!")}}
-					title="Step Into It"
-					color="#CCF6FF"
-					/>
+					route=""
+					label="Step Into It"
+				/>
+
 				<Button
-					onPress={() => {console.log("Select Dat Button Pressed!")}}
-					title="Select Day"
-					color="#CCF6FF"/>
+					route=""
+					label="Select Day"
+				/>
 			</View>
 		</View>
   );
 }
 
 const styles = StyleSheet.create({
-	container:{
-		// margin: 10,
+	container: {
 		justifyContent: "center",
-    alignItems: "center",
+		alignItems: "center",
 		backgroundColor: "#EB9928",
 		borderColor: "#CCF6FF",
 		borderWidth: 1,
 		borderRadius: 5,
+		margin:10
 	},
-  text: {
-    fontSize: 30,
-    color: '#2F4858',
-  },
+
+	workoutContainter: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent:"center",
+		position: 'relative',
+		width:"100%"
+	},
+
+	dayContainter: {
+		justifyContent: "space-between",
+		width: "90%",
+		gap: 10,
+		marginBottom: 10,
+	},
+
+	workoutTitle: {
+		fontSize: 30,
+		fontWeight:"bold",
+		color: '#2F4858',
+	},
+
+	icon: {
+		position: 'absolute',
+		right: 0,
+		margin:10,
+	},
+
+	text: {
+		fontSize: 30,
+		color: '#2F4858',
+		alignSelf: "center",
+	},
+
 	separator: {
-    // marginVertical: 8,
-    borderBottomColor: '#737373',
-    borderBottomWidth: 10,
-  },
+		borderBottomColor: '#CCF6FF',
+		borderBottomWidth: 1,
+		width: '100%',
+		marginVertical: 10,
+	},
 });
