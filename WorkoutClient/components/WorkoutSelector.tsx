@@ -1,10 +1,9 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
 import { Button } from "@/components/Button";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { Separator } from "@/components/Separator";
 
 export function WorkoutSelector({ workoutName, dayName }: { workoutName: string, dayName: string }) {
-	const Separator = () => <View style={styles.separator} />;
-
   return (
 		<View style={styles.container}>
 			<View style={styles.workoutContainter}>
@@ -75,12 +74,5 @@ const styles = StyleSheet.create({
 		fontSize: 30,
 		color: '#2F4858',
 		alignSelf: "center",
-	},
-
-	separator: {
-		borderBottomColor: '#CCF6FF',
-		borderBottomWidth: 1,
-		width: '100%',
-		marginVertical: 10,
 	},
 });

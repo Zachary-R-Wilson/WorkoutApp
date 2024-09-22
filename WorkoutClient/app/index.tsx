@@ -3,8 +3,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Header } from "@/components/Header";
 import { BottomNav } from "@/components/BottomNav";
 import { WorkoutSelector } from "@/components/WorkoutSelector";
-
-const Separator = () => <View style={styles.separator} />;
+import { Separator } from "@/components/Separator";
 
 export default function Index() {
   return (
@@ -38,11 +37,4 @@ const styles = StyleSheet.create({
   workoutView: {
     width: "100%",
   },
-
-	separator: {
-		borderBottomColor: '#CCF6FF',
-		borderBottomWidth: 1,
-		width: "100%",
-		marginVertical: 10,
-	},
 });
