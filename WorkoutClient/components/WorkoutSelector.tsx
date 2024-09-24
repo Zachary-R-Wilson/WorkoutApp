@@ -12,12 +12,21 @@ openDrawer: () => void, setDrawerContent: (element: JSX.Element) => void }) {
 	(<ScrollView style={{width: "90%"}}>
 			<Button
 				label="Push"
+				pressFunc={() => {
+					router.push('/');
+				}}
 			/>
 			<Button
 				label="Pull"
+				pressFunc={() => {
+					router.push('/');
+				}}
 			/>
 			<Button
 				label="Legs"
+				pressFunc={() => {
+					router.push('/');
+				}}
 			/>
 	</ScrollView>);
 
@@ -74,10 +83,14 @@ openDrawer: () => void, setDrawerContent: (element: JSX.Element) => void }) {
 
 				<Button
 					label="Step Into It"
+					pressFunc={() => {
+						router.push('/');
+					}}
 				/>
 
 				<Button
 					label="Select Day"
+					pressFunc={handleSelectDayOpenDrawer}
 				/>
 
 			</View>
@@ -107,7 +120,6 @@ const styles = StyleSheet.create({
 	dayContainter: {
 		justifyContent: "space-between",
 		width: "90%",
-		gap: 10,
 		marginBottom: 10,
 	},
 

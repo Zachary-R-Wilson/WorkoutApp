@@ -1,15 +1,16 @@
-import { StyleSheet, Text, View, Pressable} from "react-native";
+import { StyleSheet, Text, Pressable} from "react-native";
 
-export function Button({ label }: { label: string }) {
+export function Button({ label, pressFunc }: { label: string, pressFunc: () => void }) {
 	return (
-		<View style={styles.container}>
-			<Text style={styles.text}>{label}</Text>
-		</View>
+		<Pressable style={styles.buttonContainer}
+			onPress={pressFunc}>
+			<Text style={styles.buttonText}>{label}</Text>
+		</Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-	container:{
+	buttonContainer:{
 		justifyContent: "center",
 		alignItems: "center",
 		backgroundColor: "#CCF6FF",
@@ -17,9 +18,10 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		borderRadius: 5,
 		height: 40,
+		marginVertical:5
 	},
 
-	text: {
+	buttonText: {
 		fontSize: 25,
 		color: '#2F4858',
 	},
