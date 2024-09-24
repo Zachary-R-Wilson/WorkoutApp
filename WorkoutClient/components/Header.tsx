@@ -1,10 +1,10 @@
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
-export function Header() {
-	const motivationText = "Looking Strong Today, Zach!";
-
+export function Header({title} : {title:string}) {
   return (
-    <Text style={styles.text}>{motivationText}</Text>
+    <View style={{alignItems: "center"}}>
+      <Text style={styles.text}>{title}</Text>
+    </View>
   );
 }
 

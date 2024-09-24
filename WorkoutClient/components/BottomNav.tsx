@@ -1,16 +1,31 @@
 import { StyleSheet, View, Pressable} from "react-native";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { useRouter } from 'expo-router';
+
 
 export function BottomNav() {
+  const router = useRouter();
+
   return (
     <View style={styles.container}>
-        <Pressable>
-          <MaterialIcons name="fitness-center" size={58} color="#CCF6FF" />
+        <Pressable
+          onPress={() => {
+            router.push('/workouts');
+          }}>
+            <MaterialIcons name="fitness-center" size={58} color="#CCF6FF" />
         </Pressable>
-        <Pressable>
-          <MaterialIcons name="add-circle-outline" size={58} color="#CCF6FF" />
+
+        <Pressable
+          onPress={() => {
+            router.push('/');
+          }}>
+            <MaterialIcons name="add-circle-outline" size={58} color="#CCF6FF" />
         </Pressable>
-        <Pressable>
+
+        <Pressable
+          onPress={() => {
+            router.push('/');
+          }}>
           <MaterialIcons name="manage-accounts" size={58} color="#CCF6FF" />
         </Pressable>
     </View>

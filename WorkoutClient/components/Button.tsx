@@ -1,24 +1,17 @@
 import { StyleSheet, Text, View, Pressable} from "react-native";
-import { useNavigation } from '@react-navigation/native';
 
-export function Button({ route, label }: { route: string, label: string }) {
-	const navigation = useNavigation();
-  
+export function Button({ label }: { label: string }) {
 	return (
-	<Pressable
-		// onPress={() => navigation.navigate(route)}
-	>
 		<View style={styles.container}>
 			<Text style={styles.text}>{label}</Text>
 		</View>
-	</Pressable>	
   );
 }
 
 const styles = StyleSheet.create({
 	container:{
 		justifyContent: "center",
-    	alignItems: "center",
+		alignItems: "center",
 		backgroundColor: "#CCF6FF",
 		borderColor: "#FFFFFF",
 		borderWidth: 1,
