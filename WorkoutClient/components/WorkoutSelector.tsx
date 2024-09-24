@@ -1,14 +1,46 @@
-import { StyleSheet, Text, View, Pressable } from "react-native";
+import { StyleSheet, Text, View, Pressable, ScrollView } from "react-native";
 import { Button } from "@/components/Button";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Separator } from "@/components/Separator";
 
-export function WorkoutSelector({ workoutName, dayName }: { workoutName: string, dayName: string }) {
+
+export function WorkoutSelector({ workoutName, dayName, openDrawer, setDrawerContent }: { workoutName: string, dayName: string, 
+openDrawer: () => void, setDrawerContent: (element: JSX.Element) => void }) {
+	const selectDayContent: JSX.Element = 
+	(<ScrollView style={{width: "90%"}}>
+			<Button
+				label="Push"
+			/>
+			<Button
+				label="Pull"
+			/>
+			<Button
+				label="Legs"
+			/>
+	</ScrollView>);
+
+	const editWorkoutContent: JSX.Element = 
+	(<ScrollView style={{width: "90%"}}>
+			
+	</ScrollView>);
+	
+	const handleSelectDayOpenDrawer = () => {
+		setDrawerContent(selectDayContent);
+		openDrawer();
+	};
+
+	const handleEditWorkoutOpenDrawer = () => {
+		setDrawerContent(editWorkoutContent);
+		openDrawer();
+	};
+
   return (
 		<View style={styles.container}>
 			<View style={styles.workoutContainter}>
 				<Text style={styles.workoutTitle}>{workoutName}</Text>
-				<Pressable style={styles.icon}>
+				<Pressable style={styles.icon}
+					onPress={handleEditWorkoutOpenDrawer}
+				>
 					<MaterialIcons name="more-horiz" size={37} color="#CCF6FF" />
 				</Pressable>
 			</View>
@@ -19,14 +51,13 @@ export function WorkoutSelector({ workoutName, dayName }: { workoutName: string,
 				<Text style={styles.text}>{dayName}</Text>
 
 				<Button
-					route=""
 					label="Step Into It"
 				/>
 
 				<Button
-					route=""
 					label="Select Day"
 				/>
+
 			</View>
 		</View>
   );
