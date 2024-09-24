@@ -2,10 +2,12 @@ import { StyleSheet, Text, View, Pressable, ScrollView } from "react-native";
 import { Button } from "@/components/Button";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Separator } from "@/components/Separator";
-
+import { useRouter } from 'expo-router';
 
 export function WorkoutSelector({ workoutName, dayName, openDrawer, setDrawerContent }: { workoutName: string, dayName: string, 
 openDrawer: () => void, setDrawerContent: (element: JSX.Element) => void }) {
+	const router = useRouter();
+
 	const selectDayContent: JSX.Element = 
 	(<ScrollView style={{width: "90%"}}>
 			<Button
@@ -21,7 +23,27 @@ openDrawer: () => void, setDrawerContent: (element: JSX.Element) => void }) {
 
 	const editWorkoutContent: JSX.Element = 
 	(<ScrollView style={{width: "90%"}}>
-			
+		<Pressable style={styles.drawerView}
+			onPress={() => {
+				router.push('/');
+			}}>
+			<MaterialIcons name="share" size={58} color="#CCF6FF" />
+			<Text style={styles.drawerText}>Share</Text>
+		</Pressable>
+		<Pressable style={styles.drawerView}
+			onPress={() => {
+				router.push('/');
+			}}>
+			<MaterialIcons name="edit" size={58} color="#CCF6FF" />
+			<Text style={styles.drawerText}>Edit</Text>
+		</Pressable>
+		<Pressable style={styles.drawerView}
+			onPress={() => {
+				router.push('/');
+			}}>
+			<MaterialIcons name="delete" size={58} color="#CCF6FF" />
+			<Text style={styles.drawerText}>Delete</Text>
+		</Pressable>
 	</ScrollView>);
 	
 	const handleSelectDayOpenDrawer = () => {
@@ -106,4 +128,17 @@ const styles = StyleSheet.create({
 		color: '#2F4858',
 		alignSelf: "center",
 	},
+
+	drawerView: {
+		flexDirection:"row",
+		alignItems:"center",
+    width: "100%",
+		height:60,
+		marginBottom:10
+	},
+
+	drawerText:{
+		color:"#CCF6FF",
+		fontSize:30
+	}
 });
