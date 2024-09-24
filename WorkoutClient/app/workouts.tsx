@@ -23,7 +23,7 @@ export default function Workouts() {
       </ScrollView>
 
       <Separator />
-      <BottomNav />
+      <BottomNav openDrawer={openDrawer} setDrawerContent={setDrawerContent} />
 
       <BottomDrawer content={content} isVisible={isVisible} closeDrawer={closeDrawer}/>
     </SafeAreaView>

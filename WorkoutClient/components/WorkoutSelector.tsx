@@ -4,7 +4,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Separator } from "@/components/Separator";
 import { useRouter } from 'expo-router';
 
-export function WorkoutSelector({ workoutName, dayName, openDrawer, setDrawerContent }: { workoutName: string, dayName: string, 
+export function WorkoutSelector({ workoutName, dayName, openDrawer, setDrawerContent } : { workoutName: string, dayName: string, 
 openDrawer: () => void, setDrawerContent: (element: JSX.Element) => void }) {
 	const router = useRouter();
 
@@ -31,7 +31,7 @@ openDrawer: () => void, setDrawerContent: (element: JSX.Element) => void }) {
 	</ScrollView>);
 
 	const editWorkoutContent: JSX.Element = 
-	(<ScrollView style={{width: "90%"}}>
+	(<View style={{width: "90%"}}>
 		<Pressable style={styles.drawerView}
 			onPress={() => {
 				router.push('/');
@@ -53,7 +53,7 @@ openDrawer: () => void, setDrawerContent: (element: JSX.Element) => void }) {
 			<MaterialIcons name="delete" size={58} color="#CCF6FF" />
 			<Text style={styles.drawerText}>Delete</Text>
 		</Pressable>
-	</ScrollView>);
+	</View>);
 	
 	const handleSelectDayOpenDrawer = () => {
 		setDrawerContent(selectDayContent);
