@@ -13,14 +13,16 @@ export default function Index() {
       <Separator />     
 
       <View style={{flex:1}}>
-        <Text style={styles.title}>Login</Text>
-        <Text style={styles.text}>Sign in and workout.</Text>
+        <Text style={styles.title}>New Account</Text>
+        <Text style={styles.text}>Sign up and workout.</Text>
       </View>
 
-      <View style={{flex:1}}>
+      <View style={{flex:2}}>
         <Text style={styles.text}>Email:</Text>
         <TextInput style={styles.textInput}></TextInput>
         <Text style={styles.text}>Password:</Text>
+        <TextInput style={styles.textInput} secureTextEntry={true}></TextInput>
+        <Text style={styles.text}>Confirm Password:</Text>
         <TextInput style={styles.textInput} secureTextEntry={true}></TextInput>
       </View>
 
@@ -29,17 +31,17 @@ export default function Index() {
           onPress={() => {
             router.push('/workouts');
           }}>
-          <Text style={styles.buttonText}>Login</Text>
+          <Text style={styles.buttonText}>Create Account</Text>
         </Pressable>
       </View>
       
       <SafeAreaView style={styles.bottom}>
-        <Text style={{fontSize:25, color:"#CCF6FF", textAlign:"center" }}>Need an account?</Text>
+        <Text style={{fontSize:25, color:"#CCF6FF", textAlign:"center" }}>Have an account?</Text>
         <Pressable
           onPress={() => {
-            router.push('/signup');
+            router.push('/');
           }}>
-            <Text style={{fontSize:25, color:"#EB9928", textAlign:"center", marginLeft:4 }}>Sign up</Text>
+            <Text style={{fontSize:25, color:"#EB9928", textAlign:"center", marginLeft:4 }}>Sign in</Text>
         </Pressable>
       </SafeAreaView>
     </SafeAreaView>
