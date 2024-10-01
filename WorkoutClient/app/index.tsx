@@ -1,11 +1,56 @@
-import { StyleSheet, View, Text, Pressable, TextInput } from "react-native";
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Text, Pressable, TextInput, TouchableOpacity } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
+import useLogin from '@/hooks/useLogin';
 import { Header } from "@/components/Header";
 import { Separator } from "@/components/Separator";
 import { useRouter } from 'expo-router';
 
+type Errors = {
+  email?: string;
+  password?: string;
+  serverError?:string;
+};
+
 export default function Index() {
   const router = useRouter();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const { login, loading, error, success } = useLogin();
+  const [isLoginValid, setisLoginValid] = useState(false);
+  const [errors, setErrors] = useState<Errors>({});
+
+  const handleLogin = async () => {
+    if(isLoginValid) await login(email, password); 
+  };
+
+  useEffect(() => {
+    if (success) {
+      router.push('/workouts');
+    }
+    else {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        serverError: error,
+      }));
+    }
+  }, [success, error, router]);
+
+  const validateForm = () => {
+    let errors: Errors = {};
+
+    if (!email) errors.email = 'Email is required.';
+    else if (!/\S+@\S+\.\S+/.test(email)) errors.email = 'Email is invalid.';
+
+    if (!password) errors.password = 'Password is required.';
+
+    setErrors(errors);
+    setisLoginValid(Object.keys(errors).length === 0);
+  };
+
+  useEffect(() => {
+    validateForm();
+  }, [email, password]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -19,18 +64,24 @@ export default function Index() {
 
       <View style={{flex:1}}>
         <Text style={styles.text}>Email:</Text>
-        <TextInput style={styles.textInput}></TextInput>
+        <TextInput style={styles.textInput} keyboardType="email-address" autoCapitalize="none" onChangeText={setEmail} value={email}></TextInput>
         <Text style={styles.text}>Password:</Text>
-        <TextInput style={styles.textInput} secureTextEntry={true}></TextInput>
+        <TextInput style={styles.textInput} secureTextEntry={true} onChangeText={setPassword} value={password}></TextInput>
       </View>
 
       <View style={{flex:2}}>
-        <Pressable style={styles.buttonContainer}
-          onPress={() => {
-            router.push('/workouts');
-          }}>
-          <Text style={styles.buttonText}>Login</Text>
-        </Pressable>
+        <TouchableOpacity
+            style={[styles.buttonContainer, { opacity: isLoginValid ? 1 : 0.5 }]}
+            disabled={!isLoginValid}
+            onPress={() => { handleLogin() }}>
+            <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
+
+        {Object.keys(errors).map((key, index) => (
+          <Text key={index} style={{ color: '#EB9928' }}>
+              {errors[key as keyof Errors]}
+          </Text>
+        ))}
       </View>
       
       <SafeAreaView style={styles.bottom}>

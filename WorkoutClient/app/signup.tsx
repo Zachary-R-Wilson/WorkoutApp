@@ -1,11 +1,62 @@
-import { StyleSheet, View, Text, Pressable, TextInput } from "react-native";
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Text, Pressable, TextInput, TouchableOpacity } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Header } from "@/components/Header";
 import { Separator } from "@/components/Separator";
 import { useRouter } from 'expo-router';
+import useSignup from '@/hooks/useSignup';
 
-export default function Index() {
+type Errors = {
+  email?: string;
+  password?: string;
+  passwordConfirm?: string;
+  serverError?:string;
+};
+
+export default function Signup() {
   const router = useRouter();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
+  const { signup, loading, error, success } = useSignup();
+  const [isSignupValid, setIsSignupValid] = useState(false);
+  const [errors, setErrors] = useState<Errors>({});
+
+  const handleSignup = async () => {
+    if(isSignupValid) await signup(email, password);
+  };
+
+  useEffect(() => {
+    if (success) {
+      router.push('/workouts');
+    }
+    else {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        serverError: error,
+      }));
+    }
+  }, [success, error, router]);
+
+  const validateForm = () => {
+    let errors: Errors = {};
+
+    if (!email) errors.email = 'Email is required.';
+    else if (!/\S+@\S+\.\S+/.test(email)) errors.email = 'Email is invalid.';
+
+    if (!password) errors.password = 'Password is required.';
+
+    if (!passwordConfirm) errors.passwordConfirm = 'Confirm Password is required.';
+
+    if (password != passwordConfirm) errors.passwordConfirm = 'Passwords must match.';
+
+    setErrors(errors);
+    setIsSignupValid(Object.keys(errors).length === 0);
+  };
+
+  useEffect(() => {
+    validateForm();
+  }, [email, password, passwordConfirm]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -19,22 +70,28 @@ export default function Index() {
 
       <View style={{flex:2}}>
         <Text style={styles.text}>Email:</Text>
-        <TextInput style={styles.textInput}></TextInput>
+        <TextInput style={styles.textInput} keyboardType="email-address" autoCapitalize="none" onChangeText={setEmail} value={email}></TextInput>
         <Text style={styles.text}>Password:</Text>
-        <TextInput style={styles.textInput} secureTextEntry={true}></TextInput>
+        <TextInput style={styles.textInput} secureTextEntry={true} onChangeText={setPassword} value={password}></TextInput>
         <Text style={styles.text}>Confirm Password:</Text>
-        <TextInput style={styles.textInput} secureTextEntry={true}></TextInput>
+        <TextInput style={styles.textInput} secureTextEntry={true} onChangeText={setPasswordConfirm} value={passwordConfirm}></TextInput>
       </View>
 
       <View style={{flex:2}}>
-        <Pressable style={styles.buttonContainer}
-          onPress={() => {
-            router.push('/workouts');
-          }}>
-          <Text style={styles.buttonText}>Create Account</Text>
-        </Pressable>
+        <TouchableOpacity
+            style={[styles.buttonContainer, { opacity: isSignupValid ? 1 : 0.5 }]}
+            disabled={!isSignupValid}
+            onPress={() => { handleSignup() }}>
+            <Text style={styles.buttonText}>Create Account</Text>
+        </TouchableOpacity>
+
+        {Object.keys(errors).map((key, index) => (
+          <Text key={index} style={{ color: '#EB9928' }}>
+              {errors[key as keyof Errors]}
+          </Text>
+        ))}
       </View>
-      
+
       <SafeAreaView style={styles.bottom}>
         <Text style={{fontSize:25, color:"#CCF6FF", textAlign:"center" }}>Have an account?</Text>
         <Pressable
