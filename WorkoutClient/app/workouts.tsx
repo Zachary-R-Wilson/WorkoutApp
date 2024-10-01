@@ -5,7 +5,6 @@ import { BottomNav } from "@/components/BottomNav";
 import { WorkoutSelector } from "@/components/WorkoutSelector";
 import { Separator } from "@/components/Separator";
 import { BottomDrawer } from "@/components/BottomDrawer";
-
 import useBottomDrawer from '@/hooks/useBottomDrawer';
 
 
@@ -18,8 +17,6 @@ export default function Workouts() {
 
       <ScrollView style={styles.workoutScroll}>
         <WorkoutSelector workoutName="Push, Pull, Legs" dayName="Leg Day" openDrawer={openDrawer} setDrawerContent={setDrawerContent} />
-        {/* <WorkoutSelector workoutName="Push, Pull, Legs" dayName="Leg Day" />
-        <WorkoutSelector workoutName="Push, Pull, Legs" dayName="Leg Day" /> */}
       </ScrollView>
 
       <Separator />

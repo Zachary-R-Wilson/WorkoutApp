@@ -13,19 +13,19 @@ openDrawer: () => void, setDrawerContent: (element: JSX.Element) => void }) {
 			<Button
 				label="Push"
 				pressFunc={() => {
-					router.push('/');
+					// router.push('/');
 				}}
 			/>
 			<Button
 				label="Pull"
 				pressFunc={() => {
-					router.push('/');
+					// router.push('/');
 				}}
 			/>
 			<Button
 				label="Legs"
 				pressFunc={() => {
-					router.push('/');
+					// router.push('/');
 				}}
 			/>
 	</ScrollView>);
@@ -34,21 +34,21 @@ openDrawer: () => void, setDrawerContent: (element: JSX.Element) => void }) {
 	(<View style={{width: "90%"}}>
 		<Pressable style={styles.drawerView}
 			onPress={() => {
-				router.push('/');
+				// router.push('/');
 			}}>
 			<MaterialIcons name="share" size={58} color="#CCF6FF" />
 			<Text style={styles.drawerText}>Share</Text>
 		</Pressable>
 		<Pressable style={styles.drawerView}
 			onPress={() => {
-				router.push('/');
+				// router.push('/');
 			}}>
 			<MaterialIcons name="edit" size={58} color="#CCF6FF" />
 			<Text style={styles.drawerText}>Edit</Text>
 		</Pressable>
 		<Pressable style={styles.drawerView}
 			onPress={() => {
-				router.push('/');
+				// router.push('/');
 			}}>
 			<MaterialIcons name="delete" size={58} color="#CCF6FF" />
 			<Text style={styles.drawerText}>Delete</Text>
@@ -84,7 +84,7 @@ openDrawer: () => void, setDrawerContent: (element: JSX.Element) => void }) {
 				<Button
 					label="Step Into It"
 					pressFunc={() => {
-						router.push('/');
+						// router.push('/');
 					}}
 				/>
 

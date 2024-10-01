@@ -1,6 +1,7 @@
 import { StyleSheet, View, Text, Pressable} from "react-native";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export function BottomNav({ openDrawer, setDrawerContent } : { openDrawer: () => void, setDrawerContent: (element: JSX.Element) => void }) {
   const router = useRouter();
@@ -8,7 +9,8 @@ export function BottomNav({ openDrawer, setDrawerContent } : { openDrawer: () =>
   const userSettingsContent: JSX.Element = 
 	(<View style={{width: "90%"}}>
 		<Pressable style={styles.drawerView}
-			onPress={() => {
+			onPress={ async () => {
+        await AsyncStorage.removeItem('accessToken');
 				router.push('/');
 			}}>
 			<MaterialIcons name="logout" size={58} color="#CCF6FF" />
@@ -16,7 +18,7 @@ export function BottomNav({ openDrawer, setDrawerContent } : { openDrawer: () =>
 		</Pressable>
 		<Pressable style={styles.drawerView}
 			onPress={() => {
-				router.push('/');
+				// router.push('/');
 			}}>
 			<MaterialIcons name="track-changes" size={58} color="#CCF6FF" />
 			<Text style={styles.drawerText}>Personal Records</Text>
@@ -39,7 +41,7 @@ export function BottomNav({ openDrawer, setDrawerContent } : { openDrawer: () =>
 
         <Pressable
           onPress={() => {
-            router.push('/');
+            // router.push('/');
           }}>
             <MaterialIcons name="add-circle-outline" size={58} color="#CCF6FF" />
         </Pressable>
