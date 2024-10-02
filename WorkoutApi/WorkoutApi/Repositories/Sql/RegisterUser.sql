@@ -7,11 +7,11 @@ CREATE PROCEDURE RegisterUser
 AS
 BEGIN
 	IF EXISTS (
-		SELECT 1
-		FROM Users
-		WHERE Email = @Email
+			SELECT 1
+			FROM Users
+			WHERE Email = @Email
 		)
-		THROW 50000, 'A user key already exists for this email.', 1;
+		THROW 50000, 'An account already exists for this email.', 1;
 
 	DECLARE @userKey uniqueidentifier = NEWID();
 

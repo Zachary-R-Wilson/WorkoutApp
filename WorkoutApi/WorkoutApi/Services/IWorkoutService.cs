@@ -7,8 +7,9 @@ namespace WorkoutApi.Services
         /// <summary>
         /// Creates the workout.
         /// </summary>
+        /// <param name="token">The bearer token.</param>
         /// <param name="workoutModel">The data stored in the workout.</param>
-        void CreateWorkout(Guid userKey, WorkoutModel workoutModel);
+        void CreateWorkout(string token, WorkoutModel workoutModel);
 
         /// <summary>
         /// Deletes a workout.
@@ -26,8 +27,8 @@ namespace WorkoutApi.Services
         /// <summary>
         /// Retrieves all relative information for a users workout home screen.
         /// </summary>
-        /// <param name="userKey">The specified users guid</param>
+        /// <param name="token">The bearer token.</param>
         /// <returns>Basic Workout Information for the homescreen.</returns>
-        WorkoutCollection GetAllWorkouts(Guid userKey);
+        WorkoutCollection GetAllWorkouts(string token);
     }
 }

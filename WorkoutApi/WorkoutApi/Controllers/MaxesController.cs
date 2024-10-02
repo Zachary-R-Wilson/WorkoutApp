@@ -19,12 +19,20 @@ namespace WorkoutApi.Controllers
         }
 
         [Authorize]
-        [HttpGet("GetMaxes/{userKey:guid}")]
-        public IActionResult GetProgress(Guid userKey)
+        [HttpGet("GetMaxes")]
+        public IActionResult GetProgress()
         {
             try
             {
-                MaxModel progress = _maxesService.GetMaxes(userKey);
+                var authHeader = Request.Headers["Authorization"].ToString();
+
+                if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
+                {
+                    return Unauthorized("Missing or invalid Authorization header.");
+                }
+                var token = authHeader.Substring("Bearer ".Length).Trim();
+
+                MaxModel progress = _maxesService.GetMaxes(token);
                 return Ok(progress);
             }
             catch (SqlException e)
@@ -34,12 +42,20 @@ namespace WorkoutApi.Controllers
         }
 
         [Authorize]
-        [HttpPost("UpdateMaxes/{userKey:guid}")]
-        public IActionResult UpdateMaxes(Guid userKey, [FromBody] MaxModel maxModel)
+        [HttpPost("UpdateMaxes")]
+        public IActionResult UpdateMaxes([FromBody] MaxModel maxModel)
         {
             try
             {
-                _maxesService.UpdateMaxes(userKey, maxModel);
+                var authHeader = Request.Headers["Authorization"].ToString();
+
+                if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
+                {
+                    return Unauthorized("Missing or invalid Authorization header.");
+                }
+                var token = authHeader.Substring("Bearer ".Length).Trim();
+
+                _maxesService.UpdateMaxes(token, maxModel);
                 return Ok("Maxes Successfully Updated");
             }
             catch (SqlException e)

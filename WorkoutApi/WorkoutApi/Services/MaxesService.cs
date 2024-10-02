@@ -13,14 +13,18 @@ namespace WorkoutApi.Services
         }
 
         /// <inheritdoc />
-        public MaxModel GetMaxes(Guid userKey)
+        public MaxModel GetMaxes(string token)
         {
+            Guid userKey = JwtHelper.ExtractUserKey(token)
+                ?? throw new ArgumentNullException(nameof(token), "Invalid or missing userKey in the token.");
             return _maxesRepository.GetMaxes(userKey);
         }
 
         /// <inheritdoc />
-        public void UpdateMaxes(Guid userKey, MaxModel trackingModel)
+        public void UpdateMaxes(string token, MaxModel trackingModel)
         {
+            Guid userKey = JwtHelper.ExtractUserKey(token)
+                ?? throw new ArgumentNullException(nameof(token), "Invalid or missing userKey in the token.");
             _maxesRepository.UpdateMaxes(userKey, trackingModel);
         }
     }

@@ -13,8 +13,11 @@ namespace WorkoutApi.Services
         }
 
         /// <inheritdoc />
-        public void CreateWorkout(Guid userKey, WorkoutModel workoutModel)
+        public void CreateWorkout(string token, WorkoutModel workoutModel)
         {
+            Guid userKey = JwtHelper.ExtractUserKey(token)
+                ?? throw new ArgumentNullException(nameof(token), "Invalid or missing userKey in the token.");
+
             _workoutRepository.CreateWorkout(userKey, workoutModel);
         }
 
@@ -31,8 +34,11 @@ namespace WorkoutApi.Services
         }
 
         /// <inheritdoc />
-        public WorkoutCollection GetAllWorkouts(Guid userKey) 
+        public WorkoutCollection GetAllWorkouts(string token) 
         {
+            Guid userKey = JwtHelper.ExtractUserKey(token)
+                ?? throw new ArgumentNullException(nameof(token), "Invalid or missing userKey in the token.");
+
             return _workoutRepository.GetAllWorkouts(userKey);
         }
     }

@@ -18,12 +18,20 @@ namespace WorkoutApi.Controllers
         }
 
         [Authorize]
-        [HttpPost("CreateWorkout/{userKey:guid}")]
-        public IActionResult CreateWorkout(Guid userKey, [FromBody] WorkoutModel workoutModel)
+        [HttpPost("CreateWorkout")]
+        public IActionResult CreateWorkout([FromBody] WorkoutModel workoutModel)
         {
             try
             {
-                _workoutService.CreateWorkout(userKey, workoutModel);
+                var authHeader = Request.Headers["Authorization"].ToString();
+
+                if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
+                {
+                    return Unauthorized("Missing or invalid Authorization header.");
+                }
+                var token = authHeader.Substring("Bearer ".Length).Trim();
+
+                _workoutService.CreateWorkout(token, workoutModel);
                 return Ok("Workout Successfully Created");
             }
             catch (SqlException e)
@@ -63,12 +71,20 @@ namespace WorkoutApi.Controllers
         }
 
         [Authorize]
-        [HttpGet("GetAllWorkouts/{UserKey:guid}")]
-        public IActionResult GetAllWorkouts(Guid UserKey)
+        [HttpGet("GetAllWorkouts")]
+        public IActionResult GetAllWorkouts()
         {
             try
             {
-                WorkoutCollection workout = _workoutService.GetAllWorkouts(UserKey);
+                var authHeader = Request.Headers["Authorization"].ToString();
+
+                if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
+                {
+                    return Unauthorized("Missing or invalid Authorization header.");
+                }
+                var token = authHeader.Substring("Bearer ".Length).Trim();
+
+                WorkoutCollection workout = _workoutService.GetAllWorkouts(token);
                 return Ok(workout);
             }
             catch (SqlException e)

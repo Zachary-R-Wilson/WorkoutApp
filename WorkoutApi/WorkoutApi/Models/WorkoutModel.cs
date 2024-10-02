@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Swashbuckle.AspNetCore.SwaggerGen;
+using System.ComponentModel.DataAnnotations;
 
 namespace WorkoutApi.Models
 {
@@ -30,6 +31,6 @@ namespace WorkoutApi.Models
     public class WorkoutInfo
     {
         public Guid WorkoutKey { get; set; }
-        public List<string> Days { get; set; } = new List<string>();
+        public Dictionary<string, Guid> Days { get; set; } = new Dictionary<string, Guid>();
     }
 }

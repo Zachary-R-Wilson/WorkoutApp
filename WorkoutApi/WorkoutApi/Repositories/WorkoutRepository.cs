@@ -140,18 +140,19 @@ namespace WorkoutApi.Repositories
                     {
                         Guid workoutKey = reader.GetGuid(0);
                         string workoutName = reader.GetString(1);
-                        string dayName = reader.GetString(2);
+                        Guid dayKey = reader.GetGuid(2);
+                        string dayName = reader.GetString(3);
 
                         if (!workoutCollection.Workouts.ContainsKey(workoutName))
                         {
                             workoutCollection.Workouts[workoutName] = new WorkoutInfo
                             {
                                 WorkoutKey = workoutKey,
-                                Days = new List<string>()
+                                Days = new Dictionary<string, Guid>()
                             };
                         }
 
-                        workoutCollection.Workouts[workoutName].Days.Add(dayName);
+                        workoutCollection.Workouts[workoutName].Days[dayName] = dayKey;
                     }
                 }
 
