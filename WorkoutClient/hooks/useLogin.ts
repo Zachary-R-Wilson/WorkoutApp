@@ -28,8 +28,8 @@ const useLogin = (): UseLoginResponse => {
       });
 
       if (response.ok) {
-        const { token } = await response.json();
-        await AsyncStorage.setItem('accessToken', token);
+        const { accessToken } = await response.json();
+        await AsyncStorage.setItem('accessToken', accessToken);
         setSuccess(true);
       } else {
         setError('Email or Password was incorrect.');

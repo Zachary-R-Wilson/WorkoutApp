@@ -4,30 +4,26 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Separator } from "@/components/Separator";
 import { useRouter } from 'expo-router';
 
-export function WorkoutSelector({ workoutName, dayName, openDrawer, setDrawerContent } : { workoutName: string, dayName: string, 
+interface Days {
+  [key: string]: string;
+}
+
+export function WorkoutSelector({ workoutName, workoutKey, dayName, days, openDrawer, setDrawerContent } : { workoutName: string, workoutKey:string, dayName: string, days:Days,
 openDrawer: () => void, setDrawerContent: (element: JSX.Element) => void }) {
 	const router = useRouter();
 
 	const selectDayContent: JSX.Element = 
 	(<ScrollView style={{width: "90%"}}>
+		{days && Object.entries(days).map(([dayName, dayKey]) => (
 			<Button
-				label="Push"
+				key={dayKey}
+				label={dayName}
 				pressFunc={() => {
 					// router.push('/');
+					console.log(dayKey);
 				}}
 			/>
-			<Button
-				label="Pull"
-				pressFunc={() => {
-					// router.push('/');
-				}}
-			/>
-			<Button
-				label="Legs"
-				pressFunc={() => {
-					// router.push('/');
-				}}
-			/>
+		))}
 	</ScrollView>);
 
 	const editWorkoutContent: JSX.Element = 
