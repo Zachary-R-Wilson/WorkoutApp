@@ -9,6 +9,9 @@ export default function RootLayout() {
       <Stack.Screen name="index" />
       <Stack.Screen name="signup" />
       <Stack.Screen name="workouts" />
+      <Stack.Screen name="newWorkout" />
+      <Stack.Screen name="newDay" />
+      <Stack.Screen name="newExercise" />
       <Stack.Screen name="maxes" />
     </Stack>
   );

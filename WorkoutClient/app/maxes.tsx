@@ -35,9 +35,9 @@ export default function Maxes() {
       <Header title = {title} />
       <Separator />     
 
-      <View style={styles.container2}>
-        <View style={styles. maxContainter}>
-          <Text style={styles.maxTitle}>Bench Press</Text>
+      <View style={styles.subcontainer}>
+        <View style={styles.maxContainter}>
+          <Text style={styles.subtitle}>Bench Press</Text>
         </View>
         <Separator />
         <View style={styles.inputContainter}>
@@ -49,9 +49,9 @@ export default function Maxes() {
         </View>
       </View>
 
-      <View style={styles.container2}>
-        <View style={styles. maxContainter}>
-          <Text style={styles.maxTitle}>Deadlift</Text>
+      <View style={styles.subcontainer}>
+        <View style={styles.maxContainter}>
+          <Text style={styles.subtitle}>Deadlift</Text>
         </View>
         <Separator />
         <View style={styles.inputContainter}>
@@ -63,9 +63,9 @@ export default function Maxes() {
         </View>
       </View>
 
-      <View style={styles.container2}>
-        <View style={styles. maxContainter}>
-          <Text style={styles.maxTitle}>Squat</Text>
+      <View style={styles.subcontainer}>
+        <View style={styles.maxContainter}>
+          <Text style={styles.subtitle}>Squat</Text>
         </View>
         <Separator />
         <View style={styles.inputContainter}>
@@ -80,7 +80,7 @@ export default function Maxes() {
 
       <View style={{flex: 1}} />
 
-      <View style={styles.container2}>
+      <View style={styles.subcontainer}>
         <View style={{ width: "90%", marginVertical: 10}}>
           <Button 
             label="Save PRs"
@@ -114,7 +114,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#2F4858",
   },
-	container2: {
+
+	subcontainer: {
 		justifyContent: "center",
 		alignItems: "center",
 		backgroundColor: "#EB9928",
@@ -123,6 +124,7 @@ const styles = StyleSheet.create({
 		borderRadius: 5,
 		margin:10,
 	},
+
    maxContainter: {
 		flexDirection: "row",
 		alignItems: "center",
@@ -130,15 +132,18 @@ const styles = StyleSheet.create({
 		position: 'relative',
 		width:"100%"
 	},
+
   inputContainter: {
 		width: "90%",
 		marginBottom: 10
 	},
-  maxTitle: {
+
+  subtitle: {
 		fontSize: 30,
 		fontWeight:"bold",
 		color: '#2F4858',
 	},
+
   textInput: {
 		borderWidth: 1,
 		borderRadius: 5,
