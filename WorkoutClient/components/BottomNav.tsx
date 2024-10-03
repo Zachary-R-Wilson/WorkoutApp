@@ -18,7 +18,7 @@ export function BottomNav({ openDrawer, setDrawerContent } : { openDrawer: () =>
 		</Pressable>
 		<Pressable style={styles.drawerView}
 			onPress={() => {
-				// router.push('/');
+				router.push('/maxes');
 			}}>
 			<MaterialIcons name="track-changes" size={58} color="#CCF6FF" />
 			<Text style={styles.drawerText}>Personal Records</Text>
