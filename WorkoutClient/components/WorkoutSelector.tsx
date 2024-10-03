@@ -28,13 +28,13 @@ openDrawer: () => void, setDrawerContent: (element: JSX.Element) => void }) {
 
 	const editWorkoutContent: JSX.Element = 
 	(<View style={{width: "90%"}}>
-		<Pressable style={styles.drawerView}
+		{/* <Pressable style={styles.drawerView}
 			onPress={() => {
 				// router.push('/');
 			}}>
 			<MaterialIcons name="share" size={58} color="#CCF6FF" />
 			<Text style={styles.drawerText}>Share</Text>
-		</Pressable>
+		</Pressable> */}
 		<Pressable style={styles.drawerView}
 			onPress={() => {
 				// router.push('/');

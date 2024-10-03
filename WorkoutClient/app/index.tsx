@@ -64,7 +64,7 @@ export default function Index() {
 
       <View style={{flex:1}}>
         <Text style={styles.text}>Email:</Text>
-        <TextInput style={styles.textInput} keyboardType="email-address" autoCapitalize="none" onChangeText={setEmail} value={email}></TextInput>
+        <TextInput style={styles.textInput} inputMode="email" autoCapitalize="none" onChangeText={setEmail} value={email}></TextInput>
         <Text style={styles.text}>Password:</Text>
         <TextInput style={styles.textInput} secureTextEntry={true} onChangeText={setPassword} value={password}></TextInput>
       </View>

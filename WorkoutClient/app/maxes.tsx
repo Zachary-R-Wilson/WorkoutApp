@@ -41,7 +41,7 @@ export default function Maxes() {
         </View>
         <Separator />
         <View style={styles.inputContainter}>
-          <TextInput style={styles.textInput} placeholder={bench} keyboardType="numeric"
+          <TextInput style={styles.textInput} placeholder={bench} inputMode="numeric"
             onChangeText={(value) => {
               if (/^\d*$/.test(value)) setBench(value);
             }}
@@ -55,7 +55,7 @@ export default function Maxes() {
         </View>
         <Separator />
         <View style={styles.inputContainter}>
-          <TextInput style={styles.textInput} placeholder={deadlift} keyboardType="numeric"
+          <TextInput style={styles.textInput} placeholder={deadlift} inputMode="numeric"
             onChangeText={(value) => {
               if (/^\d*$/.test(value)) setDeadlift(value);
             }}
@@ -69,7 +69,7 @@ export default function Maxes() {
         </View>
         <Separator />
         <View style={styles.inputContainter}>
-          <TextInput style={styles.textInput} placeholder={squat} keyboardType="numeric" 
+          <TextInput style={styles.textInput} placeholder={squat} inputMode="numeric" 
             onChangeText={(value) => {
               if (/^\d*$/.test(value)) setSquat(value);
             }}

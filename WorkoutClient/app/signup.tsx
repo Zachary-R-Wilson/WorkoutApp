@@ -70,7 +70,7 @@ export default function Signup() {
 
       <View style={{flex:2}}>
         <Text style={styles.text}>Email:</Text>
-        <TextInput style={styles.textInput} keyboardType="email-address" autoCapitalize="none" onChangeText={setEmail} value={email}></TextInput>
+        <TextInput style={styles.textInput} inputMode="email" autoCapitalize="none" onChangeText={setEmail} value={email}></TextInput>
         <Text style={styles.text}>Password:</Text>
         <TextInput style={styles.textInput} secureTextEntry={true} onChangeText={setPassword} value={password}></TextInput>
         <Text style={styles.text}>Confirm Password:</Text>
