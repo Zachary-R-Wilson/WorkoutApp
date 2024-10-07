@@ -28,6 +28,7 @@ openDrawer: () => void, setDrawerContent: (element: JSX.Element) => void }) {
 
 	const editWorkoutContent: JSX.Element = 
 	(<View style={{width: "90%"}}>
+		{/* The Share feature button */}
 		{/* <Pressable style={styles.drawerView}
 			onPress={() => {
 				// router.push('/');
@@ -80,7 +81,7 @@ openDrawer: () => void, setDrawerContent: (element: JSX.Element) => void }) {
 				<Button
 					label="Step Into It"
 					pressFunc={() => {
-						// router.push('/');
+						router.push('/tracking');
 					}}
 				/>
 

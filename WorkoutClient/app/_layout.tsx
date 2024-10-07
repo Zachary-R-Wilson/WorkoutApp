@@ -13,6 +13,7 @@ export default function RootLayout() {
       <Stack.Screen name="newDay" />
       <Stack.Screen name="newExercise" />
       <Stack.Screen name="maxes" />
+      <Stack.Screen name="tracking" />
     </Stack>
   );
 }
