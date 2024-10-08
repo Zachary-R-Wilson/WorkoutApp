@@ -1,29 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView, TextInput } from "react-native";
-import { Header } from "@/components/Header";
 import { Separator } from "@/components/Separator";
 
 interface Days {
   [key: string]: string;
 }
 
-export function TrackingBody({ workoutName, } : { workoutName: string, }) {
+export function TrackingBody({ exerciseName, sets, repRange, lastReps, lastWeight, lastRpe } : { exerciseName: string, sets: number, repRange: string, lastReps: number, lastWeight: number, lastRpe: number }) {
 	const [reps, setReps] = useState('');
   const [weight, setWeight] = useState('');
   const [rpe, setRpe] = useState('');
 
   return (
 		<ScrollView style={styles.workoutScroll}>
-			<Header title = {workoutName} />
-      <Separator />     
-
-			<View style={styles.container} >
-				<Text style={styles.workoutTitle}>{"Squats"}</Text>
+ 			<View style={styles.container} >
+				<Text style={styles.workoutTitle}>{exerciseName}</Text>
 				<Separator />
 
 				<View style={styles.infoContainter}>
-					<Text style={styles.text}>{"For: 3 sets"}</Text>
-					<Text style={styles.text}>{"Rep Range: 4-5"}</Text>
+					<Text style={styles.text}>{"For: " + sets + " sets"}</Text>
+					<Text style={styles.text}>{"Rep Range: " + repRange}</Text>
 				</View>
 			</View>
 
@@ -32,9 +28,9 @@ export function TrackingBody({ workoutName, } : { workoutName: string, }) {
 				<Separator />
 
 				<View style={styles.infoContainter}>
-					<Text style={styles.text}>{"Total Reps: 12"}</Text>
-					<Text style={styles.text}>{"Weight: 275"}</Text>
-					<Text style={styles.text}>{"RPE: 8"}</Text>
+					<Text style={styles.text}>{"Total Reps: " + lastReps}</Text>
+					<Text style={styles.text}>{"Weight: " + lastWeight}</Text>
+					<Text style={styles.text}>{"RPE: " + lastRpe}</Text>
 				</View>
 			</View>
 
@@ -43,12 +39,12 @@ export function TrackingBody({ workoutName, } : { workoutName: string, }) {
 				<Separator />
 
 				<View style={styles.DataContainter}>
-					<View style={{justifyContent:"flex-start"}}>
+					<View >
 						<Text style={styles.text}>{"Total Reps:"}</Text>
 						<Text style={styles.text}>{"Weight:"}</Text>
 						<Text style={styles.text}>{"RPE:"}</Text>
 					</View>
-					<View>
+					<View style={{ marginLeft: 15}}>
 						<TextInput style={styles.textInput} inputMode="numeric"  
 							onChangeText={(value) => {
 								if (/^\d*$/.test(value)) setReps(value);
@@ -97,7 +93,6 @@ const styles = StyleSheet.create({
 
 	DataContainter: {
 		flexDirection: "row",
-		justifyContent: "space-between",
 		width: "90%",
 		marginBottom: 10,
 	},
@@ -111,7 +106,6 @@ const styles = StyleSheet.create({
 	text: {
 		fontSize: 30,
 		color: '#2F4858',
-		alignSelf: "center",
 	},
 
 	textInput: {

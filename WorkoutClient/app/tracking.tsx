@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GestureHandlerRootView, Swipeable } from 'react-native-gesture-handler';
 import { TrackingBody } from "@/components/TrackingBody";
@@ -7,6 +7,7 @@ import { BottomNav } from "@/components/BottomNav";
 import { Separator } from "@/components/Separator";
 import { BottomDrawer } from "@/components/BottomDrawer";
 import useBottomDrawer from '@/hooks/useBottomDrawer';
+import { Header } from "@/components/Header";
 
 export default function Tracking()  { 
   const { isVisible, content, openDrawer, closeDrawer, setDrawerContent } = useBottomDrawer();
@@ -18,34 +19,46 @@ export default function Tracking()  {
 
   const renderLeftActions = () => {
     return (
-      <View style={{ backgroundColor: 'red', justifyContent: 'center', flex: 1 }}>
-        <Text style={{ color: 'white', padding: 10 }}>Delete</Text>
-      </View>
+      <TrackingBody 
+          exerciseName = "Squats"
+          sets = {3}
+          repRange = "4-5"
+          lastReps = {12}
+          lastWeight = {275}
+          lastRpe = {8}
+          />
     );
   };
 
   const renderRightActions = () => {
     return (
-      <View style={{ backgroundColor: 'green', justifyContent: 'center', flex: 1 }}>
-        <Text style={{ color: 'white', padding: 10 }}>Right!!</Text>
-      </View>
+      <TrackingBody 
+          exerciseName = "RDL"
+          sets = {3}
+          repRange = "8-10"
+          lastReps = {30}
+          lastWeight = {65}
+          lastRpe = {8}
+          />
     );
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      
-      <TrackingBody 
-            workoutName="Leg Day!"
-          />
-          
-      {/* <GestureHandlerRootView style={{flex: 2}}>
+      <Header title = {"workoutName"} />
+      <Separator />  
+      <GestureHandlerRootView style={{flex: 2}}>
         <Swipeable renderLeftActions={renderLeftActions} renderRightActions={renderRightActions}>
           <TrackingBody 
-            workoutName="Leg Day!"
-          />
+            exerciseName = "Leg Press"
+            sets = {3}
+            repRange = "8-10"
+            lastReps = {30}
+            lastWeight = {416}
+            lastRpe = {8}
+            />
         </Swipeable>
-      </GestureHandlerRootView> */}
+      </GestureHandlerRootView>
       
       <Separator />
       <BottomNav openDrawer={openDrawer} setDrawerContent={setDrawerContent} />
