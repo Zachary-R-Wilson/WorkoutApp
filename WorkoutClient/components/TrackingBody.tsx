@@ -16,10 +16,10 @@ export function TrackingBody({ exerciseName, sets, repRange, lastReps, lastWeigh
  			<View style={styles.container} >
 				<Text style={styles.workoutTitle}>{exerciseName}</Text>
 				<Separator />
-
+				
 				<View style={styles.infoContainter}>
-					<Text style={styles.text}>{"For: " + sets + " sets"}</Text>
-					<Text style={styles.text}>{"Rep Range: " + repRange}</Text>
+					<Text style={styles.text}>{`For: ${sets} sets`}</Text>
+					<Text style={styles.text}>{`Rep Range: ${repRange}`}</Text>
 				</View>
 			</View>
 
@@ -28,9 +28,9 @@ export function TrackingBody({ exerciseName, sets, repRange, lastReps, lastWeigh
 				<Separator />
 
 				<View style={styles.infoContainter}>
-					<Text style={styles.text}>{"Total Reps: " + lastReps}</Text>
-					<Text style={styles.text}>{"Weight: " + lastWeight}</Text>
-					<Text style={styles.text}>{"RPE: " + lastRpe}</Text>
+					<Text style={styles.text}>{`Total Reps: ${lastReps}`}</Text>
+					<Text style={styles.text}>{`Weight: ${lastWeight}`}</Text>
+					<Text style={styles.text}>{`RPE: ${lastRpe}`}</Text>
 				</View>
 			</View>
 

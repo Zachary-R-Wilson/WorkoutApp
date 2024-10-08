@@ -41,7 +41,7 @@ export function BottomNav({ openDrawer, setDrawerContent } : { openDrawer: () =>
 
         <Pressable
           onPress={() => {
-            router.push('/newWorkout');
+            router.push('/createWorkout');
           }}>
             <MaterialIcons name="add-circle-outline" size={58} color="#CCF6FF" />
         </Pressable>
