@@ -1,8 +1,10 @@
+import { useEffect } from 'react';
 import { StyleSheet, Text, View, Pressable, ScrollView } from "react-native";
 import { Button } from "@/components/Button";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Separator } from "@/components/Separator";
 import { useRouter } from 'expo-router';
+import useDeleteWorkout from "@/hooks/useDeleteWorkout";
 
 interface Days {
   [key: string]: string;
@@ -11,6 +13,13 @@ interface Days {
 export function WorkoutSelector({ workoutName, workoutKey, dayName, days, openDrawer, setDrawerContent } : { workoutName: string, workoutKey:string, dayName: string, days:Days,
 openDrawer: () => void, setDrawerContent: (element: JSX.Element) => void }) {
 	const router = useRouter();
+	const {deleteWorkout, loadingDelete, errorDelete, successDelete} = useDeleteWorkout();
+
+	useEffect(() => {
+    if(successDelete) {
+			router.push('/workouts');
+		}
+  }, [successDelete]);
 
 	const selectDayContent: JSX.Element = 
 	(<ScrollView style={{width: "90%"}}>
@@ -44,7 +53,7 @@ openDrawer: () => void, setDrawerContent: (element: JSX.Element) => void }) {
 		</Pressable>
 		<Pressable style={styles.drawerView}
 			onPress={() => {
-				// router.push('/');
+				deleteWorkout(workoutKey);
 			}}>
 			<MaterialIcons name="delete" size={58} color="#CCF6FF" />
 			<Text style={styles.drawerText}>Delete</Text>
