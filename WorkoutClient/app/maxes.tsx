@@ -25,6 +25,10 @@ export default function Maxes() {
   }, []);
 
   useEffect(() => {
+    getMaxes();
+  }, [postSuccess]);
+
+  useEffect(() => {
     if (maxes?.benchpress) setBench(maxes?.benchpress.toString());
     if (maxes?.deadlift) setDeadlift(maxes?.deadlift.toString());
     if (maxes?.squat) setSquat(maxes?.squat.toString());
