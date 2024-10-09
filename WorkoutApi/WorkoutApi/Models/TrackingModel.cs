@@ -18,4 +18,28 @@
         public int? RPE { get; set; }
         public Guid ExerciseKey { get; set; }
     }
+
+    public class TrackingProgressModel
+    {
+        public TrackingProgressModel()
+        {
+            Exercises = new Dictionary<string, TrackingProgress>();
+        }
+
+        public Dictionary<string, TrackingProgress> Exercises { get; set; }
+    }
+
+    public class TrackingProgress
+    {
+        public Guid DayKey { get; set; }
+        public string DayName { get; set; }
+        public Guid ExerciseKey { get; set; }
+        public string ExerciseName { get; set; }
+        public string Reps { get; set; }
+        public int Sets { get; set; }
+        public string? Weight { get; set; }
+        public int? CompletedReps { get; set; }
+        public int? RPE { get; set; }
+        public DateTime? Date { get; set; }
+    }
 }

@@ -23,7 +23,7 @@ namespace WorkoutApi.Controllers
         {
             try
             {
-                TrackingModel progress = _trackingService.GetProgress(DayKey);
+                TrackingProgressModel progress = _trackingService.GetProgress(DayKey);
                 return Ok(progress);
             }
             catch (SqlException e)

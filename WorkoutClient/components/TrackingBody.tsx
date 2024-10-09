@@ -6,7 +6,7 @@ interface Days {
   [key: string]: string;
 }
 
-export function TrackingBody({ exerciseName, sets, repRange, lastReps, lastWeight, lastRpe } : { exerciseName: string, sets: number, repRange: string, lastReps: number, lastWeight: number, lastRpe: number }) {
+export function TrackingBody({ exerciseKey, exerciseName, sets, repRange, lastReps, lastWeight, lastRpe } : { exerciseKey:string, exerciseName: string, sets: number, repRange: string, lastReps: string, lastWeight: string, lastRpe: string }) {
 	const [reps, setReps] = useState('');
   const [weight, setWeight] = useState('');
   const [rpe, setRpe] = useState('');

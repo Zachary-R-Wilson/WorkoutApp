@@ -8,8 +8,8 @@ namespace WorkoutApi.Repositories
         /// Gets the latest tracking information from the database.
         /// </summary>
         /// <param name="dayKey">The day that is being tracked.</param>
-        /// <returns>A Tracking model with the tracking information.</returns>
-        TrackingModel GetProgress(Guid dayKey);
+        /// <returns>A Tracking Progress Model with the tracking information.</returns>
+        TrackingProgressModel GetProgress(Guid dayKey);
 
         /// <summary>
         /// Inserts tracking information into the database.

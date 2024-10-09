@@ -9,7 +9,7 @@ namespace WorkoutApi.Services
         /// </summary>
         /// <param name="dayKey">The day that is being tracked.</param>
         /// <returns>A Tracking model with the tracking information.</returns>
-        TrackingModel GetProgress(Guid dayKey);
+        TrackingProgressModel GetProgress(Guid dayKey);
 
         /// <summary>
         /// Inserts tracking information into the database.

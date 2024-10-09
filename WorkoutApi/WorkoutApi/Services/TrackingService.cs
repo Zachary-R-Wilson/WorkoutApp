@@ -14,7 +14,7 @@ namespace WorkoutApi.Services
 
 
         /// <inheritdoc />
-        public TrackingModel GetProgress(Guid dayKey)
+        public TrackingProgressModel GetProgress(Guid dayKey)
         {
             return _trackingRepository.GetProgress(dayKey);
         }

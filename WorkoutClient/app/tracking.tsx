@@ -1,59 +1,62 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { StyleSheet, View, FlatList, Dimensions, ViewToken } from "react-native";
+import { useLocalSearchParams } from "expo-router";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TrackingBody } from "@/components/TrackingBody";
 import { BottomNav } from "@/components/BottomNav";
 import { Separator } from "@/components/Separator";
 import { BottomDrawer } from "@/components/BottomDrawer";
-import useBottomDrawer from '@/hooks/useBottomDrawer';
 import { Header } from "@/components/Header";
 import { Button } from "@/components/Button";
+import useBottomDrawer from '@/hooks/useBottomDrawer';
+import useGetProgress from "@/hooks/useGetProgress";
 
 const { width } = Dimensions.get('window');
 const ITEM_WIDTH = width * .9;
 
+interface TrackingProgress {
+  dayKey: string;
+  dayName: string;
+  exerciseKey: string;
+  exerciseName: string;
+  reps: string;
+  sets: number;
+  weight?: string;
+  completedReps?: number;
+  rpe?: number;
+  date: Date;
+}
+
 export default function Tracking()  { 
+  const { workoutKey, dayName, dayKey } = useLocalSearchParams();
   const { isVisible, content, openDrawer, closeDrawer, setDrawerContent } = useBottomDrawer();
+  const { getProgress, loadingProgress, errorProgress, successProgress, progress } = useGetProgress();
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [exercises, setExercises] = useState<TrackingProgress[]>([]);
 
   useEffect(() => {
-
+    // @ts-ignore:next-line /dayKey: string | string[] is only passed as string.
+    getProgress(dayKey);
   }, []);
 
-  const exercises = [
-    {
-      exerciseName: "Leg Press",
-      sets: 3,
-      repRange: "8-10",
-      lastReps: 30,
-      lastWeight: 416,
-      lastRpe: 8,
-    },
-    {
-      exerciseName: "Squats",
-      sets: 3,
-      repRange: "4-5",
-      lastReps: 12,
-      lastWeight: 275,
-      lastRpe: 8,
-    },
-    {
-      exerciseName: "RDL",
-      sets: 3,
-      repRange: "8-10",
-      lastReps: 30,
-      lastWeight: 65,
-      lastRpe: 8,
+  useEffect(() => {
+    if (progress && progress.exercises) {
+      setExercises(Object.values(progress.exercises));
     }
-  ];
+  }, [progress]);
 
-  const [currentIndex, setCurrentIndex] = useState(0);
+  useEffect(() => {
+  }, [exercises]);
 
-  const handleViewableItemsChanged = ({ viewableItems }: { viewableItems: ViewToken[] }) => {
-    if (viewableItems.length > 0) {
-      const index = viewableItems[0].index;
-      setCurrentIndex(index !== null ? index : 0);
-    }
-  };
+  const handleViewableItemsChanged = useCallback(
+    ({ viewableItems }: { viewableItems: ViewToken[] }) => {
+      if (viewableItems.length > 0) {
+        const index = viewableItems[0].index;
+        setCurrentIndex(index !== null ? index : 0);
+      }
+    },
+    []
+  );
 
   const viewabilityConfig = {
     viewAreaCoveragePercentThreshold: 50,
@@ -71,17 +74,20 @@ export default function Tracking()  {
           pagingEnabled
           keyExtractor={(item, index) => index.toString()}
           showsHorizontalScrollIndicator={false}
+
           onViewableItemsChanged={handleViewableItemsChanged}
+          
           viewabilityConfig={viewabilityConfig}
           renderItem={({ item }) => (
             <View style={styles.itemContainer}>
               <TrackingBody
+                exerciseKey={item.exerciseKey}
                 exerciseName={item.exerciseName}
                 sets={item.sets}
-                repRange={item.repRange}
-                lastReps={item.lastReps}
-                lastWeight={item.lastWeight}
-                lastRpe={item.lastRpe}
+                repRange={item.reps}
+                lastReps={item.completedReps?.toString() ?? "Untracked"}
+                lastWeight={item.weight ?? "Untracked"}
+                lastRpe={item.rpe?.toString() ?? "Untracked"}
               />
             </View>
           )}

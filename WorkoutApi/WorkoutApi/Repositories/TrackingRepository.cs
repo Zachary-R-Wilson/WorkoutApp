@@ -15,7 +15,7 @@ namespace WorkoutApi.Repositories
         }
 
         /// <inheritdoc />
-        public TrackingModel GetProgress(Guid dayKey)
+        public TrackingProgressModel GetProgress(Guid dayKey)
         {
             using (SqlCommand command = new SqlCommand("GetProgress", _connection))
             {
@@ -23,33 +23,41 @@ namespace WorkoutApi.Repositories
                 command.Parameters.Add(new SqlParameter("@DayKey", SqlDbType.UniqueIdentifier) { Value = dayKey });
                 _connection.Open();
 
-                TrackingModel trackingModel = new TrackingModel();
+                TrackingProgressModel trackingProgressModel = new TrackingProgressModel();
 
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        string weight = reader.GetString(0);
-                        int completedReps = reader.GetInt32(1);
-                        int rpe = reader.GetInt32(2);
-                        DateTime date = reader.GetDateTime(3);
-                        Guid exerciseKey = reader.GetGuid(4);
-                        string exerciseName = reader.GetString(5);
+                        string dayName = reader.GetString(reader.GetOrdinal("DayName"));
+                        Guid exerciseKey = reader.GetGuid(reader.GetOrdinal("ExerciseKey"));
+                        string exerciseName = reader.GetString(reader.GetOrdinal("ExerciseName"));
+                        string reps = reader.GetString(reader.GetOrdinal("Reps"));
+                        int sets = reader.GetInt32(reader.GetOrdinal("Sets"));
+                        string? weight = reader.IsDBNull(reader.GetOrdinal("Weight")) ? null : reader.GetString(reader.GetOrdinal("Weight"));
+                        int? completedReps = reader.IsDBNull(reader.GetOrdinal("CompletedReps")) ? (int?)null : reader.GetInt32(reader.GetOrdinal("CompletedReps"));
+                        int? rpe = reader.IsDBNull(reader.GetOrdinal("RPE")) ? (int?)null : reader.GetInt32(reader.GetOrdinal("RPE"));
+                        DateTime? date = reader.IsDBNull(reader.GetOrdinal("LastWorkout")) ? (DateTime?)null : reader.GetDateTime(reader.GetOrdinal("LastWorkout"));
 
-                        trackingModel.Exercises[exerciseName] = new TrackingInfo
+                        trackingProgressModel.Exercises[exerciseName] = new TrackingProgress
                         {
-                            Date = date,
+                            DayKey = dayKey,
+                            DayName = dayName,
+                            ExerciseKey = exerciseKey,
+                            ExerciseName = exerciseName,
+                            Reps = reps,
+                            Sets = sets,
                             Weight = weight,
                             CompletedReps = completedReps,
                             RPE = rpe,
-                            ExerciseKey = exerciseKey
+                            Date = date
                         };
                     }
                 }
 
                 _connection.Close();
 
-                return trackingModel;
+                return trackingProgressModel;
             }
         }
 
