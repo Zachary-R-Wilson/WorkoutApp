@@ -28,7 +28,7 @@ openDrawer: () => void, setDrawerContent: (element: JSX.Element) => void }) {
 				key={dayKey}
 				label={dayName}
 				pressFunc={() => {
-					router.push({ pathname:'/tracking', params: { workoutKey:workoutKey, dayName:dayName, dayKey:dayKey }});
+					router.push({ pathname:'/tracking', params: { workoutName:workoutName, dayKey:dayKey }});
 				}}
 			/>
 		))}
@@ -89,7 +89,7 @@ openDrawer: () => void, setDrawerContent: (element: JSX.Element) => void }) {
 				<Button
 					label="Step Into It"
 					pressFunc={() => {
-						router.push({ pathname:'/tracking', params: { workoutKey:workoutKey, dayName:dayName, dayKey:days[dayName] }});
+						router.push({ pathname:'/tracking', params: { workoutName:workoutName, dayKey:days[dayName] }});
 					}}
 				/>
 

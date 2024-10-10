@@ -28,7 +28,7 @@ interface TrackingProgress {
 }
 
 export default function Tracking()  { 
-  const { workoutKey, dayName, dayKey } = useLocalSearchParams();
+  const {workoutName, dayKey } = useLocalSearchParams();
   const { isVisible, content, openDrawer, closeDrawer, setDrawerContent } = useBottomDrawer();
   const { getProgress, loadingProgress, errorProgress, successProgress, progress } = useGetProgress();
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -64,7 +64,8 @@ export default function Tracking()  {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header title = {"workoutName"} />
+      {/* @ts-ignore:next-line /dayKey: string | string[] is only passed as string. */}
+      <Header title = {workoutName} />
       <Separator />
 
       <View style={{ flex: 2 }}>
