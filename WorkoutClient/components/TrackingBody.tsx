@@ -6,10 +6,42 @@ interface Days {
   [key: string]: string;
 }
 
-export function TrackingBody({ exerciseKey, exerciseName, sets, repRange, lastReps, lastWeight, lastRpe } : { exerciseKey:string, exerciseName: string, sets: number, repRange: string, lastReps: string, lastWeight: string, lastRpe: string }) {
-	const [reps, setReps] = useState('');
-  const [weight, setWeight] = useState('');
-  const [rpe, setRpe] = useState('');
+interface TrackingInfo {
+  date: string;
+  weight?: string;
+  completedReps?: number;
+  rpe?: number;
+  exerciseKey: string;
+}
+
+export function TrackingBody({ exerciseKey, exerciseName, sets, repRange, lastReps, lastWeight, lastRpe, trackingInfo, updateTrackingModel } : { exerciseKey:string, exerciseName: string, sets: number, repRange: string, lastReps: string, lastWeight: string, lastRpe: string, trackingInfo:TrackingInfo, updateTrackingModel:(exerciseName: string, updatedInfo: TrackingInfo)=>void }) {
+	const handleRepsChange = (value: string) => {
+		if (/^\d*$/.test(value)) {
+			const newReps = value ? parseInt(value, 10) : undefined;
+			updateTrackingModel(exerciseName, { ...trackingInfo, completedReps: newReps });
+		}
+  };
+
+  const handleWeightChange = (value: string) => {
+    updateTrackingModel(exerciseName, { ...trackingInfo, weight: value });
+  };
+
+  const handleRpeChange = (value: string) => {
+		if (/^\d*$/.test(value)) {
+			const newRpe = value ? parseInt(value, 10) : undefined;
+			updateTrackingModel(exerciseName, { ...trackingInfo, rpe: newRpe });
+		}
+  };
+
+	useEffect(() => {
+		updateTrackingModel(exerciseName, { 
+			date: new Date().toISOString(), 
+			weight: lastWeight,
+			completedReps: parseInt(lastReps, 10),
+			rpe: parseInt(lastRpe, 10),
+			exerciseKey:exerciseKey 
+		});
+	}, []);
 
   return (
 		<ScrollView style={styles.workoutScroll}>
@@ -46,22 +78,15 @@ export function TrackingBody({ exerciseKey, exerciseName, sets, repRange, lastRe
 					</View>
 					<View style={{ marginLeft: 15}}>
 						<TextInput style={styles.textInput} inputMode="numeric"  
-							onChangeText={(value) => {
-								if (/^\d*$/.test(value)) setReps(value);
-							}}
-							value={reps}>
+							onChangeText={handleRepsChange}>
 						</TextInput>
-						<TextInput style={styles.textInput} inputMode="numeric"  
-						onChangeText={(value) => {
-							if (/^\d*$/.test(value)) setWeight(value);
-						}}
-						value={weight}>
+
+						<TextInput style={styles.textInput}
+							onChangeText={handleWeightChange}>
 						</TextInput>
+
 						<TextInput style={styles.textInput} inputMode="numeric" 
-							onChangeText={(value) => {
-								if (/^\d*$/.test(value)) setRpe(value);
-							}}
-							value={rpe}>
+							onChangeText={handleRpeChange}>
 						</TextInput>
 					</View>					
 				</View>
