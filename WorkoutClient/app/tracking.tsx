@@ -125,7 +125,6 @@ export default function Tracking()  {
             label="Complete Workout"
             pressFunc={() => {
               insertTracking(trackingModel);
-              console.log(trackingModel);
               router.push('/workouts');
             }}
           />
