@@ -36,7 +36,7 @@ export default function Signup() {
         serverError: error,
       }));
     }
-  }, [success, error, router]);
+  }, [success, error]);
 
   const validateForm = () => {
     let errors: Errors = {};

@@ -34,7 +34,7 @@ export default function Index() {
         serverError: error,
       }));
     }
-  }, [success, error, router]);
+  }, [success, error]);
 
   const validateForm = () => {
     let errors: Errors = {};

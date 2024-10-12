@@ -28,8 +28,8 @@ const useSignup = (): UseSignupResponse => {
       });
 
       if (response.ok) {
-        const { token } = await response.json();
-        await AsyncStorage.setItem('accessToken', token);
+        const { accessToken } = await response.json();
+        await AsyncStorage.setItem('accessToken', accessToken);
         setSuccess(true);
       } else {
         setError('Sign up Failed.');
