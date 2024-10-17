@@ -63,12 +63,13 @@ namespace WorkoutApi.Repositories
         }
 
         /// <inheritdoc />
-        public void DeleteWorkout(Guid workoutKey)
+        public void DeleteWorkout(Guid userKey, Guid workoutKey)
         {
             using (SqlCommand command = new SqlCommand("DeleteWorkout", _connection))
             {
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.Add(new SqlParameter("@WorkoutKey", SqlDbType.UniqueIdentifier) { Value = workoutKey });
+                command.Parameters.Add(new SqlParameter("@UserKey", SqlDbType.UniqueIdentifier) { Value = userKey });
 
                 _connection.Open();
                 command.ExecuteNonQuery();
@@ -77,12 +78,13 @@ namespace WorkoutApi.Repositories
         }
 
         /// <inheritdoc />
-        public WorkoutModel GetWorkout(Guid workoutKey)
+        public WorkoutModel GetWorkout(Guid userKey, Guid workoutKey)
         {
             using (SqlCommand command = new SqlCommand("GetWorkout", _connection))
             {
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.Add(new SqlParameter("@WorkoutKey", SqlDbType.UniqueIdentifier) { Value = workoutKey });
+                command.Parameters.Add(new SqlParameter("@UserKey", SqlDbType.UniqueIdentifier) { Value = userKey });
                 _connection.Open();
 
                 WorkoutModel workout = null;

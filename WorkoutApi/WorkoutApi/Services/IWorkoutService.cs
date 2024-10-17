@@ -14,15 +14,17 @@ namespace WorkoutApi.Services
         /// <summary>
         /// Deletes a workout.
         /// </summary>
+        /// <param name="token">The bearer token.</param>
         /// <param name="workoutKey">The guid of the workout being deleted.</param>
-        void DeleteWorkout(Guid workoutKey);
+        void DeleteWorkout(string token, Guid workoutKey);
 
         /// <summary>
         /// Retrieves a workout model for a given workout guid.
         /// </summary>
+        /// <param name="token">The bearer token.</param>
         /// <param name="WorkoutKey">The specified guid of the workout</param>
         /// <returns>WorkoutModel with the workout data.</returns>
-        WorkoutModel GetWorkout(Guid WorkoutKey);
+        WorkoutModel GetWorkout(string token, Guid WorkoutKey);
 
         /// <summary>
         /// Retrieves all relative information for a users workout home screen.

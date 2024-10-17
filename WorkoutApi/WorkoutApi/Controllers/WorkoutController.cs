@@ -44,9 +44,17 @@ namespace WorkoutApi.Controllers
         [HttpPost("DeleteWorkout/{workoutKey:guid}")]
         public IActionResult DeleteWorkout(Guid workoutKey)
         {
+            var authHeader = Request.Headers["Authorization"].ToString();
+
+            if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
+            {
+                return Unauthorized("Missing or invalid Authorization header.");
+            }
+            var token = authHeader.Substring("Bearer ".Length).Trim();
+
             try
             {
-                _workoutService.DeleteWorkout(workoutKey);
+                _workoutService.DeleteWorkout(token, workoutKey);
                 return Ok("Workout Successfully Deleted");
             }
             catch (SqlException e)
@@ -59,9 +67,17 @@ namespace WorkoutApi.Controllers
         [HttpGet("GetWorkout/{workoutKey:guid}")]
         public IActionResult GetWorkout(Guid workoutKey)
         {
+            var authHeader = Request.Headers["Authorization"].ToString();
+
+            if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
+            {
+                return Unauthorized("Missing or invalid Authorization header.");
+            }
+            var token = authHeader.Substring("Bearer ".Length).Trim();
+
             try
             {
-                WorkoutModel workout = _workoutService.GetWorkout(workoutKey);
+                WorkoutModel workout = _workoutService.GetWorkout(token, workoutKey);
                 return Ok(workout);
             }
             catch (SqlException e)

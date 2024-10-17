@@ -22,15 +22,21 @@ namespace WorkoutApi.Services
         }
 
         /// <inheritdoc />
-        public void DeleteWorkout(Guid workoutKey)
+        public void DeleteWorkout(string token, Guid workoutKey)
         {
-            _workoutRepository.DeleteWorkout(workoutKey);
+            Guid userKey = JwtHelper.ExtractUserKey(token)
+                ?? throw new ArgumentNullException(nameof(token), "Invalid or missing userKey in the token.");
+
+            _workoutRepository.DeleteWorkout(userKey, workoutKey);
         }
 
         /// <inheritdoc />
-        public WorkoutModel GetWorkout(Guid WorkoutKey)
+        public WorkoutModel GetWorkout(string token, Guid WorkoutKey)
         {
-            return _workoutRepository.GetWorkout(WorkoutKey);
+            Guid userKey = JwtHelper.ExtractUserKey(token)
+                ?? throw new ArgumentNullException(nameof(token), "Invalid or missing userKey in the token.");
+
+            return _workoutRepository.GetWorkout(userKey, WorkoutKey);
         }
 
         /// <inheritdoc />
