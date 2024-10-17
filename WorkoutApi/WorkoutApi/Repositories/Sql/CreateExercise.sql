@@ -1,17 +1,15 @@
-﻿IF OBJECT_ID('CreateExercise', 'P') IS NOT NULL
-    DROP PROCEDURE CreateExercise;
-GO
-CREATE PROCEDURE CreateExercise
+﻿ALTER PROCEDURE [dbo].[CreateExercise]
 	@DayKey Uniqueidentifier,
     @ExerciseName NVARCHAR(256),
 	@ExerciseReps NVARCHAR(256),
-	@ExerciseSets INTEGER
+	@ExerciseSets INTEGER,
+	@Order INTEGER
 AS
 BEGIN
     DECLARE @ExerciseKey uniqueidentifier = NEWID();
 
 	INSERT INTO [Exercises]
-	VALUES (@ExerciseKey, @ExerciseName, @ExerciseReps, @ExerciseSets, @DayKey);
+	VALUES (@ExerciseKey, @ExerciseName, @ExerciseReps, @ExerciseSets, @Order, @DayKey);
 
 	SELECT @DayKey;
 END;

@@ -39,8 +39,13 @@ namespace WorkoutApi.Repositories
 
                     model.Days.Keys.ToList().ForEach(dayName =>
                     {
+                        int index = 0;
                         Guid dayKey = CreateDay(workoutKey, dayName, transaction);
-                        model.Days[dayName].ForEach(exercise => CreateExercise(dayKey, exercise, transaction));
+                        model.Days[dayName].ForEach(exercise =>
+                        {
+                            CreateExercise(dayKey, exercise, index, transaction);
+                            index++;
+                        });
                     });
 
                     transaction.Commit();
@@ -186,9 +191,10 @@ namespace WorkoutApi.Repositories
         /// </summary>
         /// <param name="dayKey">The guid of the linked day.</param>
         /// <param name="exercise">The Exercise data to be added to the database</param>
+        /// <param name="order">The order exercises are to be placed.</param
         /// <param name="transaction">The connection to the sql database.</param>
 
-        private void CreateExercise(Guid dayKey, Exercise exercise, SqlTransaction transaction)
+        private void CreateExercise(Guid dayKey, Exercise exercise, int ordrer, SqlTransaction transaction)
         {
             using (SqlCommand command = new SqlCommand("CreateExercise", _connection, transaction))
             {
@@ -197,6 +203,7 @@ namespace WorkoutApi.Repositories
                 command.Parameters.Add(new SqlParameter("@ExerciseName", SqlDbType.NVarChar, 256) { Value = exercise.Name });
                 command.Parameters.Add(new SqlParameter("@ExerciseReps", SqlDbType.NVarChar, 256) { Value = exercise.Reps });
                 command.Parameters.Add(new SqlParameter("@ExerciseSets", SqlDbType.Int) { Value = exercise.Sets });
+                command.Parameters.Add(new SqlParameter("@Order", SqlDbType.Int) { Value = ordrer });
 
                 command.ExecuteNonQuery();
             }
