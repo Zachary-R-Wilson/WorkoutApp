@@ -44,16 +44,16 @@ namespace WorkoutApi.Controllers
         [HttpPost("DeleteWorkout/{workoutKey:guid}")]
         public IActionResult DeleteWorkout(Guid workoutKey)
         {
-            var authHeader = Request.Headers["Authorization"].ToString();
-
-            if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
-            {
-                return Unauthorized("Missing or invalid Authorization header.");
-            }
-            var token = authHeader.Substring("Bearer ".Length).Trim();
-
             try
             {
+                var authHeader = Request.Headers["Authorization"].ToString();
+
+                if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
+                {
+                    return Unauthorized("Missing or invalid Authorization header.");
+                }
+                var token = authHeader.Substring("Bearer ".Length).Trim();
+
                 _workoutService.DeleteWorkout(token, workoutKey);
                 return Ok("Workout Successfully Deleted");
             }
@@ -67,16 +67,16 @@ namespace WorkoutApi.Controllers
         [HttpGet("GetWorkout/{workoutKey:guid}")]
         public IActionResult GetWorkout(Guid workoutKey)
         {
-            var authHeader = Request.Headers["Authorization"].ToString();
-
-            if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
-            {
-                return Unauthorized("Missing or invalid Authorization header.");
-            }
-            var token = authHeader.Substring("Bearer ".Length).Trim();
-
             try
             {
+                var authHeader = Request.Headers["Authorization"].ToString();
+
+                if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
+                {
+                    return Unauthorized("Missing or invalid Authorization header.");
+                }
+                var token = authHeader.Substring("Bearer ".Length).Trim();
+
                 WorkoutModel workout = _workoutService.GetWorkout(token, workoutKey);
                 return Ok(workout);
             }

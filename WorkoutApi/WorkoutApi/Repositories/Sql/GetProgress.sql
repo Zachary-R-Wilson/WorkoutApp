@@ -1,10 +1,17 @@
-﻿IF OBJECT_ID('GetProgress', 'P') IS NOT NULL
-    DROP PROCEDURE GetProgress;
-GO
-CREATE PROCEDURE GetProgress
-	@DayKey Uniqueidentifier
+﻿ALTER PROCEDURE [dbo].[GetProgress]
+	@DayKey Uniqueidentifier,
+	@UserKey UniqueIdentifier
 AS
 BEGIN
+	IF NOT EXISTS (
+		SELECT 1 
+		FROM Workouts W
+		JOIN Days D ON D.WorkoutKey = W.WorkoutKey
+		WHERE D.DayKey = @DayKey AND W.UserKey = @UserKey
+	)
+		THROW 50000, 'Access Denied: You do not have permission to access this workout.', 1;
+
+
 	DECLARE @RecentWorkout TABLE ( ExerciseKey UNIQUEIDENTIFIER, LastWorkout DATETIME );
 	INSERT INTO @RecentWorkout (ExerciseKey, LastWorkout) (
 		SELECT 

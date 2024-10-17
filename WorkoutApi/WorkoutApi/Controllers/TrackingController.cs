@@ -23,7 +23,15 @@ namespace WorkoutApi.Controllers
         {
             try
             {
-                TrackingProgressModel progress = _trackingService.GetProgress(DayKey);
+                var authHeader = Request.Headers["Authorization"].ToString();
+
+                if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
+                {
+                    return Unauthorized("Missing or invalid Authorization header.");
+                }
+                var token = authHeader.Substring("Bearer ".Length).Trim();
+
+                TrackingProgressModel progress = _trackingService.GetProgress(token, DayKey);
                 return Ok(progress);
             }
             catch (SqlException e)
@@ -38,7 +46,15 @@ namespace WorkoutApi.Controllers
         {
             try
             {
-                _trackingService.InsertTracking(trackingModel);
+                var authHeader = Request.Headers["Authorization"].ToString();
+
+                if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
+                {
+                    return Unauthorized("Missing or invalid Authorization header.");
+                }
+                var token = authHeader.Substring("Bearer ".Length).Trim();
+
+                _trackingService.InsertTracking(token, trackingModel);
                 return Ok("Progress Successfully Saved");
             }
             catch (SqlException e)

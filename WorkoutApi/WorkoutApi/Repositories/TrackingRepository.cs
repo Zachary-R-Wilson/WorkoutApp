@@ -15,12 +15,13 @@ namespace WorkoutApi.Repositories
         }
 
         /// <inheritdoc />
-        public TrackingProgressModel GetProgress(Guid dayKey)
+        public TrackingProgressModel GetProgress(Guid userKey, Guid dayKey)
         {
             using (SqlCommand command = new SqlCommand("GetProgress", _connection))
             {
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.Add(new SqlParameter("@DayKey", SqlDbType.UniqueIdentifier) { Value = dayKey });
+                command.Parameters.Add(new SqlParameter("@UserKey", SqlDbType.UniqueIdentifier) { Value = userKey });
                 _connection.Open();
 
                 TrackingProgressModel trackingProgressModel = new TrackingProgressModel();
@@ -62,7 +63,7 @@ namespace WorkoutApi.Repositories
         }
 
         /// <inheritdoc />
-        public void InsertTracking(TrackingModel trackingModel)
+        public void InsertTracking(Guid userKey, TrackingModel trackingModel)
         {
             if (_connection.State != ConnectionState.Open)
             {
@@ -75,7 +76,7 @@ namespace WorkoutApi.Repositories
                 {
                     trackingModel.Exercises.Keys.ToList().ForEach(exerciseName =>
                     {
-                        InsertInfo(trackingModel.Exercises[exerciseName], transaction);
+                        InsertInfo(trackingModel.Exercises[exerciseName], userKey, transaction);
                     });
 
                     transaction.Commit();
@@ -97,12 +98,13 @@ namespace WorkoutApi.Repositories
         /// </summary>
         /// <param name="info">The tracking data to be stored.</param>
         /// <param name="transaction">The connection to the sql database.</param>
-        private void InsertInfo(TrackingInfo info, SqlTransaction transaction)
+        private void InsertInfo(TrackingInfo info, Guid userKey, SqlTransaction transaction)
         {
             using (SqlCommand command = new SqlCommand("InsertTracking", _connection, transaction))
             {
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.Add(new SqlParameter("@ExerciseKey", SqlDbType.UniqueIdentifier) { Value = info.ExerciseKey });
+                command.Parameters.Add(new SqlParameter("@UserKey", SqlDbType.UniqueIdentifier) { Value = userKey });
                 command.Parameters.Add(new SqlParameter("@Date", SqlDbType.Date) { Value = info.Date });
                 command.Parameters.Add(new SqlParameter("@Weight", SqlDbType.NVarChar, 256) { Value = info.Weight});
                 command.Parameters.Add(new SqlParameter("@CompletedReps", SqlDbType.Int) { Value = info.CompletedReps});

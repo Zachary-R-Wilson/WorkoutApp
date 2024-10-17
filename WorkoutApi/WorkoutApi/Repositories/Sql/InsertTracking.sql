@@ -1,14 +1,14 @@
-﻿IF OBJECT_ID('InsertTracking', 'P') IS NOT NULL
-    DROP PROCEDURE InsertTracking;
-GO
-CREATE PROCEDURE InsertTracking
+﻿ALTER PROCEDURE [dbo].[InsertTracking]
 	@ExerciseKey Uniqueidentifier,
+	@UserKey Uniqueidentifier,
     @Date Date,
 	@Weight NVARCHAR(256),
 	@CompletedReps INTEGER,
 	@RPE INTEGER
 AS
 BEGIN
+	EXEC [VerifyUserExercise] @ExerciseKey, @UserKey;
+
 	INSERT INTO [Tracking] 
 	VALUES (@Date, @Weight, @CompletedReps, @RPE, @ExerciseKey);
 END;

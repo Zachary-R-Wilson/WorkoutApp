@@ -14,15 +14,21 @@ namespace WorkoutApi.Services
 
 
         /// <inheritdoc />
-        public TrackingProgressModel GetProgress(Guid dayKey)
+        public TrackingProgressModel GetProgress(string token, Guid dayKey)
         {
-            return _trackingRepository.GetProgress(dayKey);
+            Guid userKey = JwtHelper.ExtractUserKey(token)
+                ?? throw new ArgumentNullException(nameof(token), "Invalid or missing userKey in the token.");
+
+            return _trackingRepository.GetProgress(userKey, dayKey);
         }
 
         /// <inheritdoc />
-        public void InsertTracking(TrackingModel trackingModel)
+        public void InsertTracking(string token, TrackingModel trackingModel)
         {
-            _trackingRepository.InsertTracking(trackingModel);
+            Guid userKey = JwtHelper.ExtractUserKey(token)
+                ?? throw new ArgumentNullException(nameof(token), "Invalid or missing userKey in the token.");
+
+            _trackingRepository.InsertTracking(userKey, trackingModel);
         }
     }
 }
