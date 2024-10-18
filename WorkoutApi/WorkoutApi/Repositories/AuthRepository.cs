@@ -1,4 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data;
 using System.Data;
 using WorkoutApi.Models;
 
@@ -6,9 +6,9 @@ namespace WorkoutApi.Repositories
 {
     public class AuthRepository: IAuthRepository
     {
-        private readonly SqlConnection _connection;
+        private readonly IDbConnection _connection;
 
-        public AuthRepository(SqlConnection connection)
+        public AuthRepository(IDbConnection connection)
         {
             _connection = connection;
         }
@@ -18,12 +18,19 @@ namespace WorkoutApi.Repositories
         {
             Guid? userKey = null;
 
-            using (SqlCommand command = new SqlCommand("AuthUser", _connection))
+            using (IDbCommand command = _connection.CreateCommand())
             {
+                command.CommandText = "AuthUser";
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add(new SqlParameter("@Email", SqlDbType.NVarChar, 254) { Value = loginModel.Email });
+
+                var emailParameter = command.CreateParameter();
+                emailParameter.ParameterName = "@Email";
+                emailParameter.DbType = DbType.String;
+                emailParameter.Value = loginModel.Email;
+                command.Parameters.Add(emailParameter);
+
                 _connection.Open();
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (IDataReader reader = command.ExecuteReader())
                 {
                     if (reader.Read())
                     {
@@ -44,11 +51,22 @@ namespace WorkoutApi.Repositories
         {
             Guid? userKey = null;
 
-            using (SqlCommand command = new SqlCommand("RegisterUser", _connection))
+            using (IDbCommand command = _connection.CreateCommand())
             {
+                command.CommandText = "RegisterUser";
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add(new SqlParameter("@Email", SqlDbType.NVarChar, 254) { Value = loginModel.Email });
-                command.Parameters.Add(new SqlParameter("@PasswordHash", SqlDbType.NVarChar, 75) { Value = BCrypt.Net.BCrypt.HashPassword(loginModel.Password) });
+
+                var emailParameter = command.CreateParameter();
+                emailParameter.ParameterName = "@Email";
+                emailParameter.DbType = DbType.String;
+                emailParameter.Value = loginModel.Email;
+                command.Parameters.Add(emailParameter);
+
+                var passwordHashParameter = command.CreateParameter();
+                passwordHashParameter.ParameterName = "@PasswordHash";
+                passwordHashParameter.DbType = DbType.String;
+                passwordHashParameter.Value = loginModel.Password;
+                command.Parameters.Add(passwordHashParameter);
 
                 _connection.Open();
                 object result = command.ExecuteScalar();

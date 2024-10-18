@@ -6,9 +6,9 @@ namespace WorkoutApi.Repositories
 {
     public class WorkoutRepository : IWorkoutRepository
     {
-        private readonly SqlConnection _connection;
+        private readonly IDbConnection _connection;
 
-        public WorkoutRepository(SqlConnection connection)
+        public WorkoutRepository(IDbConnection connection)
         {
             _connection = connection;
         }
@@ -21,17 +21,31 @@ namespace WorkoutApi.Repositories
                 _connection.Open();
             }
 
-            using (SqlTransaction transaction = _connection.BeginTransaction())
+            using (IDbTransaction transaction = _connection.BeginTransaction())
             {
                 try
                 {
                     Guid? workoutKey = null;
 
-                    using (SqlCommand command = new SqlCommand("CreateWorkout", _connection, transaction))
+                    using (IDbCommand command = _connection.CreateCommand())
                     {
+                        command.CommandText = "CreateWorkout";
+                        command.Transaction = transaction;
                         command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.Add(new SqlParameter("@UserKey", SqlDbType.UniqueIdentifier) { Value = userKey });
-                        command.Parameters.Add(new SqlParameter("@WorkoutName", SqlDbType.NVarChar, 256) { Value = model.Name });
+
+                        var userKeyParameter = command.CreateParameter();
+                        userKeyParameter.ParameterName = "@UserKey";
+                        userKeyParameter.DbType = DbType.Guid;
+                        userKeyParameter.Value = userKey;
+                        command.Parameters.Add(userKeyParameter);
+
+                        var workoutNameParameter = command.CreateParameter();
+                        workoutNameParameter.ParameterName = "@WorkoutName";
+                        workoutNameParameter.DbType = DbType.String;
+                        workoutNameParameter.Size = 256;
+                        workoutNameParameter.Value = model.Name;
+                        command.Parameters.Add(workoutNameParameter);
+
                         object result = command.ExecuteScalar();
 
                         workoutKey = (Guid)result;
@@ -65,11 +79,22 @@ namespace WorkoutApi.Repositories
         /// <inheritdoc />
         public void DeleteWorkout(Guid userKey, Guid workoutKey)
         {
-            using (SqlCommand command = new SqlCommand("DeleteWorkout", _connection))
+            using (IDbCommand command = _connection.CreateCommand())
             {
+                command.CommandText = "DeleteWorkout";
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add(new SqlParameter("@WorkoutKey", SqlDbType.UniqueIdentifier) { Value = workoutKey });
-                command.Parameters.Add(new SqlParameter("@UserKey", SqlDbType.UniqueIdentifier) { Value = userKey });
+
+                var workoutKeyParameter = command.CreateParameter();
+                workoutKeyParameter.ParameterName = "@WorkoutKey";
+                workoutKeyParameter.DbType = DbType.Guid;
+                workoutKeyParameter.Value = workoutKey;
+                command.Parameters.Add(workoutKeyParameter);
+
+                var userKeyParameter = command.CreateParameter();
+                userKeyParameter.ParameterName = "@UserKey";
+                userKeyParameter.DbType = DbType.Guid;
+                userKeyParameter.Value = userKey;
+                command.Parameters.Add(userKeyParameter);
 
                 _connection.Open();
                 command.ExecuteNonQuery();
@@ -80,17 +105,29 @@ namespace WorkoutApi.Repositories
         /// <inheritdoc />
         public WorkoutModel GetWorkout(Guid userKey, Guid workoutKey)
         {
-            using (SqlCommand command = new SqlCommand("GetWorkout", _connection))
+            using (IDbCommand command = _connection.CreateCommand())
             {
+                command.CommandText = "GetWorkout";
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add(new SqlParameter("@WorkoutKey", SqlDbType.UniqueIdentifier) { Value = workoutKey });
-                command.Parameters.Add(new SqlParameter("@UserKey", SqlDbType.UniqueIdentifier) { Value = userKey });
+
+                var workoutKeyParameter = command.CreateParameter();
+                workoutKeyParameter.ParameterName = "@WorkoutKey";
+                workoutKeyParameter.DbType = DbType.Guid;
+                workoutKeyParameter.Value = workoutKey;
+                command.Parameters.Add(workoutKeyParameter);
+
+                var userKeyParameter = command.CreateParameter();
+                userKeyParameter.ParameterName = "@UserKey";
+                userKeyParameter.DbType = DbType.Guid;
+                userKeyParameter.Value = userKey;
+                command.Parameters.Add(userKeyParameter);
+
                 _connection.Open();
 
                 WorkoutModel workout = null;
                 var daysDictionary = new Dictionary<string, List<Exercise>>();
 
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (IDataReader reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
@@ -133,15 +170,22 @@ namespace WorkoutApi.Repositories
         /// <inheritdoc />
         public  WorkoutCollection GetAllWorkouts(Guid userKey) 
         {
-            using (SqlCommand command = new SqlCommand("GetAllWorkouts", _connection))
+            using (IDbCommand command = _connection.CreateCommand())
             {
+                command.CommandText = "GetAllWorkouts";
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add(new SqlParameter("@UserKey", SqlDbType.UniqueIdentifier) { Value = userKey });
+
+                var userKeyParameter = command.CreateParameter();
+                userKeyParameter.ParameterName = "@UserKey";
+                userKeyParameter.DbType = DbType.Guid;
+                userKeyParameter.Value = userKey;
+                command.Parameters.Add(userKeyParameter);
+
                 _connection.Open();
 
                 WorkoutCollection workoutCollection = new WorkoutCollection();
 
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (IDataReader reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
@@ -176,13 +220,27 @@ namespace WorkoutApi.Repositories
         /// <param name="dayName">The name of the day being created.</param>
         /// <param name="transaction">The connection to the sql database.</param>
         /// <returns>The Guid of the day that was created.</returns>
-        private Guid CreateDay(Guid? workoutKey, string dayName, SqlTransaction transaction)
+        private Guid CreateDay(Guid? workoutKey, string dayName, IDbTransaction transaction)
         {
-            using (SqlCommand command = new SqlCommand("CreateDay", _connection, transaction))
+            using (IDbCommand command = _connection.CreateCommand())
             {
+                command.CommandText = "CreateDay";
+                command.Transaction = transaction;
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add(new SqlParameter("@WorkoutKey", SqlDbType.UniqueIdentifier) { Value = workoutKey });
-                command.Parameters.Add(new SqlParameter("@DayName", SqlDbType.NVarChar, 256) { Value = dayName });
+
+                var workoutKeyParameter = command.CreateParameter();
+                workoutKeyParameter.ParameterName = "@WorkoutKey";
+                workoutKeyParameter.DbType = DbType.Guid;
+                workoutKeyParameter.Value = workoutKey;
+                command.Parameters.Add(workoutKeyParameter);
+
+                var dayNameParameter = command.CreateParameter();
+                dayNameParameter.ParameterName = "@DayName";
+                dayNameParameter.DbType = DbType.String;
+                dayNameParameter.Size = 256;
+                dayNameParameter.Value = dayName;
+                command.Parameters.Add(dayNameParameter);
+
                 object result = command.ExecuteScalar();
                 return (Guid)result;
             }
@@ -196,16 +254,45 @@ namespace WorkoutApi.Repositories
         /// <param name="order">The order exercises are to be placed.</param
         /// <param name="transaction">The connection to the sql database.</param>
 
-        private void CreateExercise(Guid dayKey, Exercise exercise, int ordrer, SqlTransaction transaction)
+        private void CreateExercise(Guid dayKey, Exercise exercise, int order, IDbTransaction transaction)
         {
-            using (SqlCommand command = new SqlCommand("CreateExercise", _connection, transaction))
+            using (IDbCommand command = _connection.CreateCommand())
             {
+                command.CommandText = "CreateExercise";
+                command.Transaction = transaction;
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add(new SqlParameter("@DayKey", SqlDbType.UniqueIdentifier) { Value = dayKey });
-                command.Parameters.Add(new SqlParameter("@ExerciseName", SqlDbType.NVarChar, 256) { Value = exercise.Name });
-                command.Parameters.Add(new SqlParameter("@ExerciseReps", SqlDbType.NVarChar, 256) { Value = exercise.Reps });
-                command.Parameters.Add(new SqlParameter("@ExerciseSets", SqlDbType.Int) { Value = exercise.Sets });
-                command.Parameters.Add(new SqlParameter("@Order", SqlDbType.Int) { Value = ordrer });
+
+                var dayKeyParameter = command.CreateParameter();
+                dayKeyParameter.ParameterName = "@DayKey";
+                dayKeyParameter.DbType = DbType.Guid;
+                dayKeyParameter.Value = dayKey;
+                command.Parameters.Add(dayKeyParameter);
+
+                var exerciseNameParameter = command.CreateParameter();
+                exerciseNameParameter.ParameterName = "@ExerciseName";
+                exerciseNameParameter.DbType = DbType.String;
+                exerciseNameParameter.Size = 256;
+                exerciseNameParameter.Value = exercise.Name;
+                command.Parameters.Add(exerciseNameParameter);
+
+                var exerciseRepsParameter = command.CreateParameter();
+                exerciseRepsParameter.ParameterName = "@ExerciseReps";
+                exerciseRepsParameter.DbType = DbType.String;
+                exerciseRepsParameter.Size = 256;
+                exerciseRepsParameter.Value = exercise.Reps;
+                command.Parameters.Add(exerciseRepsParameter);
+
+                var exerciseSetsParameter = command.CreateParameter();
+                exerciseSetsParameter.ParameterName = "@ExerciseSets";
+                exerciseSetsParameter.DbType = DbType.Int32;
+                exerciseSetsParameter.Value = exercise.Sets;
+                command.Parameters.Add(exerciseSetsParameter);
+
+                var orderParameter = command.CreateParameter();
+                orderParameter.ParameterName = "@Order";
+                orderParameter.DbType = DbType.Int32;
+                orderParameter.Value = order;
+                command.Parameters.Add(orderParameter);
 
                 command.ExecuteNonQuery();
             }

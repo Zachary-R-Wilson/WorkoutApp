@@ -6,9 +6,9 @@ namespace WorkoutApi.Repositories
 {
     public class MaxesRepository : IMaxesRepository
     {
-        private readonly SqlConnection _connection;
+        private readonly IDbConnection _connection;
 
-        public MaxesRepository(SqlConnection connection)
+        public MaxesRepository(IDbConnection connection)
         {
             _connection = connection;
         }
@@ -16,15 +16,22 @@ namespace WorkoutApi.Repositories
         /// <inheritdoc />
         public MaxModel GetMaxes(Guid userKey)
         {
-            using (SqlCommand command = new SqlCommand("GetMaxes", _connection))
+            using (IDbCommand command = _connection.CreateCommand())
             {
+                command.CommandText = "GetMaxes";
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add(new SqlParameter("@UserKey", SqlDbType.UniqueIdentifier) { Value = userKey });
+
+                var userKeyParameter = command.CreateParameter();
+                userKeyParameter.ParameterName = "@UserKey";
+                userKeyParameter.DbType = DbType.Guid;
+                userKeyParameter.Value = userKey;
+                command.Parameters.Add(userKeyParameter);
+
                 _connection.Open();
 
                 MaxModel? maxModel = null;
 
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (IDataReader reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
@@ -53,13 +60,38 @@ namespace WorkoutApi.Repositories
         /// <inheritdoc />
         public void UpdateMaxes(Guid userKey, MaxModel maxModel)
         {
-            using (SqlCommand command = new SqlCommand("UpdateMaxes", _connection))
+            using (IDbCommand command = _connection.CreateCommand())
             {
+                command.CommandText = "UpdateMaxes";
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add(new SqlParameter("@UserKey", SqlDbType.UniqueIdentifier) { Value = userKey });
-                command.Parameters.Add(new SqlParameter("@Squat", SqlDbType.Int) { Value = maxModel.Squat });
-                command.Parameters.Add(new SqlParameter("@Deadlift", SqlDbType.Int) { Value = maxModel.Deadlift});
-                command.Parameters.Add(new SqlParameter("@Benchpress", SqlDbType.Int) { Value = maxModel.Benchpress });
+                //command.Parameters.Add(new SqlParameter("@UserKey", SqlDbType.UniqueIdentifier) { Value = userKey });
+                //command.Parameters.Add(new SqlParameter("@Squat", SqlDbType.Int) { Value = maxModel.Squat });
+                //command.Parameters.Add(new SqlParameter("@Deadlift", SqlDbType.Int) { Value = maxModel.Deadlift});
+                //command.Parameters.Add(new SqlParameter("@Benchpress", SqlDbType.Int) { Value = maxModel.Benchpress });
+
+                var userKeyParameter = command.CreateParameter();
+                userKeyParameter.ParameterName = "@UserKey";
+                userKeyParameter.DbType = DbType.Guid;
+                userKeyParameter.Value = userKey;
+                command.Parameters.Add(userKeyParameter);
+
+                var squatParameter = command.CreateParameter();
+                squatParameter.ParameterName = "@Squat";
+                squatParameter.DbType = DbType.Int32;
+                squatParameter.Value = maxModel.Squat;
+                command.Parameters.Add(squatParameter);
+
+                var DeadliftParameter = command.CreateParameter();
+                DeadliftParameter.ParameterName = "@Deadlift";
+                DeadliftParameter.DbType = DbType.Int32;
+                DeadliftParameter.Value = maxModel.Deadlift;
+                command.Parameters.Add(DeadliftParameter);
+
+                var benchpressParameter = command.CreateParameter();
+                benchpressParameter.ParameterName = "@Benchpress";
+                benchpressParameter.DbType = DbType.Int32;
+                benchpressParameter.Value = maxModel.Benchpress;
+                command.Parameters.Add(benchpressParameter);
 
                 _connection.Open();
                 command.ExecuteNonQuery();

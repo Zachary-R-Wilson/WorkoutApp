@@ -7,9 +7,9 @@ namespace WorkoutApi.Repositories
 {
     public class TrackingRepository: ITrackingRepository
     {
-        private readonly SqlConnection _connection;
+        private readonly IDbConnection _connection;
 
-        public TrackingRepository(SqlConnection connection)
+        public TrackingRepository(IDbConnection connection)
         {
             _connection = connection;
         }
@@ -17,16 +17,28 @@ namespace WorkoutApi.Repositories
         /// <inheritdoc />
         public TrackingProgressModel GetProgress(Guid userKey, Guid dayKey)
         {
-            using (SqlCommand command = new SqlCommand("GetProgress", _connection))
+            using (IDbCommand command = _connection.CreateCommand())
             {
+                command.CommandText = "GetProgress";
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add(new SqlParameter("@DayKey", SqlDbType.UniqueIdentifier) { Value = dayKey });
-                command.Parameters.Add(new SqlParameter("@UserKey", SqlDbType.UniqueIdentifier) { Value = userKey });
+
+                var dayKeyParameter = command.CreateParameter();
+                dayKeyParameter.ParameterName = "@DayKey";
+                dayKeyParameter.DbType = DbType.Guid;
+                dayKeyParameter.Value = dayKey;
+                command.Parameters.Add(dayKeyParameter);
+
+                var userKeyParameter = command.CreateParameter();
+                userKeyParameter.ParameterName = "@UserKey";
+                userKeyParameter.DbType = DbType.Guid;
+                userKeyParameter.Value = userKey;
+                command.Parameters.Add(userKeyParameter);
+
                 _connection.Open();
 
                 TrackingProgressModel trackingProgressModel = new TrackingProgressModel();
 
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (IDataReader reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
@@ -70,7 +82,7 @@ namespace WorkoutApi.Repositories
                 _connection.Open();
             }
 
-            using (SqlTransaction transaction = _connection.BeginTransaction())
+            using (IDbTransaction transaction = _connection.BeginTransaction())
             {
                 try
                 {
@@ -98,17 +110,51 @@ namespace WorkoutApi.Repositories
         /// </summary>
         /// <param name="info">The tracking data to be stored.</param>
         /// <param name="transaction">The connection to the sql database.</param>
-        private void InsertInfo(TrackingInfo info, Guid userKey, SqlTransaction transaction)
+        private void InsertInfo(TrackingInfo info, Guid userKey, IDbTransaction transaction)
         {
-            using (SqlCommand command = new SqlCommand("InsertTracking", _connection, transaction))
+            using (IDbCommand command = _connection.CreateCommand())
             {
+                command.CommandText = "InsertTracking";
+                command.Transaction = transaction;
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add(new SqlParameter("@ExerciseKey", SqlDbType.UniqueIdentifier) { Value = info.ExerciseKey });
-                command.Parameters.Add(new SqlParameter("@UserKey", SqlDbType.UniqueIdentifier) { Value = userKey });
-                command.Parameters.Add(new SqlParameter("@Date", SqlDbType.Date) { Value = info.Date });
-                command.Parameters.Add(new SqlParameter("@Weight", SqlDbType.NVarChar, 256) { Value = info.Weight});
-                command.Parameters.Add(new SqlParameter("@CompletedReps", SqlDbType.Int) { Value = info.CompletedReps});
-                command.Parameters.Add(new SqlParameter("@RPE", SqlDbType.Int) { Value = info.RPE });
+
+                var exerciseKeyParameter = command.CreateParameter();
+                exerciseKeyParameter.ParameterName = "@ExerciseKey";
+                exerciseKeyParameter.DbType = DbType.Guid;
+                exerciseKeyParameter.Value = info.ExerciseKey;
+                command.Parameters.Add(exerciseKeyParameter);
+
+                var userKeyParameter = command.CreateParameter();
+                userKeyParameter.ParameterName = "@UserKey";
+                userKeyParameter.DbType = DbType.Guid;
+                userKeyParameter.Value = userKey;
+                command.Parameters.Add(userKeyParameter);
+
+                var dateParameter = command.CreateParameter();
+                dateParameter.ParameterName = "@Date";
+                dateParameter.DbType = DbType.Date;
+                dateParameter.Value = info.Date;
+                command.Parameters.Add(dateParameter);
+
+                var weightParameter = command.CreateParameter();
+                weightParameter.ParameterName = "@Weight";
+                weightParameter.DbType = DbType.String;
+                weightParameter.Size = 256;
+                weightParameter.Value = info.Weight;
+                command.Parameters.Add(weightParameter);
+
+                var completedRepsParameter = command.CreateParameter();
+                completedRepsParameter.ParameterName = "@CompletedReps";
+                completedRepsParameter.DbType = DbType.Int32;
+                completedRepsParameter.Value = info.CompletedReps;
+                command.Parameters.Add(completedRepsParameter);
+
+                var rpeParameter = command.CreateParameter();
+                rpeParameter.ParameterName = "@RPE";
+                rpeParameter.DbType = DbType.Int32;
+                rpeParameter.Value = info.RPE;
+                command.Parameters.Add(rpeParameter);
+
                 object result = command.ExecuteScalar();
             }
         }
