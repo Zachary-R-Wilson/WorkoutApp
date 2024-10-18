@@ -27,8 +27,4 @@
     <ProjectReference Include="..\WorkoutApi\WorkoutApi.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="RepositoryTests\" />
-  </ItemGroup>
-
 </Project>

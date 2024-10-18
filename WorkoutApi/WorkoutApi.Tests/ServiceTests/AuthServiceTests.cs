@@ -62,6 +62,40 @@ namespace WorkoutApi.Tests.ServiceTests
 
         #region RegisterUser
 
+        [Fact]
+        public void RegisterUser_ValidCredentials_ReturnsJwt()
+        {
+            // Arrange
+            var loginModel = new LoginModel { Email = "testing@email.com", Password = "password" };
+            var userKey = Guid.NewGuid();
+            var expectedToken = "valid_token";
+
+            _mockAuthRepository.Setup(x => x.AuthenticateUser(loginModel)).Returns(userKey);
+
+            _mockJwtHelper.Setup(x => x.GenerateAccessToken(userKey)).Returns(expectedToken);
+
+            // Act
+            var result = _authService.AuthenticateUser(loginModel);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(expectedToken, result);
+        }
+
+        [Fact]
+        public void RegisterUser_InvalidCredentials_ReturnsNull()
+        {
+            // Arrange
+            var loginModel = new LoginModel { Email = "invalid@email.com", Password = "password" };
+
+            _mockAuthRepository.Setup(x => x.AuthenticateUser(loginModel)).Returns((Guid?)null);
+
+            // Act
+            var result = _authService.AuthenticateUser(loginModel);
+
+            // Assert
+            Assert.Null(result);
+        }
 
         #endregion
     }
