@@ -5,14 +5,10 @@ using System.Text;
 
 namespace WorkoutApi.Services
 {
-    public class JwtHelper
+    public class JwtHelper : IJwtHelper
     {
-        /// <summary>
-        /// Retrives the UserKey from the valid JwtToken.
-        /// </summary>
-        /// <param name="token">The JwtToken given to the client on login.</param>
-        /// <returns>Extracted UserKey</returns>
-        public static Guid? ExtractUserKey(string token)
+        /// <inheritdoc />
+        public Guid? ExtractUserKey(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_SECRETKEY"));
@@ -51,12 +47,8 @@ namespace WorkoutApi.Services
             }
         }
 
-        /// <summary>
-        /// Generates a JwtToken so the valid user can access the api
-        /// </summary>
-        /// <param name="userKey">The Guid that designates which user this is.</param>
-        /// <returns>JwtToken</returns>
-        public static string GenerateAccessToken(Guid? userKey)
+        /// <inheritdoc />
+        public string GenerateAccessToken(Guid? userKey)
         {
             if (userKey == null) throw new ArgumentNullException(nameof(userKey));
 

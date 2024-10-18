@@ -6,17 +6,19 @@ namespace WorkoutApi.Services
     public class TrackingService: ITrackingService
     {
         private readonly ITrackingRepository _trackingRepository;
+        private readonly IJwtHelper _jwtHelper;
 
-        public TrackingService(ITrackingRepository trackingRepository)
+        public TrackingService(ITrackingRepository trackingRepository, IJwtHelper jwtHelper)
         {
             _trackingRepository = trackingRepository;
+            _jwtHelper = jwtHelper;
         }
 
 
         /// <inheritdoc />
         public TrackingProgressModel GetProgress(string token, Guid dayKey)
         {
-            Guid userKey = JwtHelper.ExtractUserKey(token)
+            Guid userKey = _jwtHelper.ExtractUserKey(token)
                 ?? throw new ArgumentNullException(nameof(token), "Invalid or missing userKey in the token.");
 
             return _trackingRepository.GetProgress(userKey, dayKey);
@@ -25,7 +27,7 @@ namespace WorkoutApi.Services
         /// <inheritdoc />
         public void InsertTracking(string token, TrackingModel trackingModel)
         {
-            Guid userKey = JwtHelper.ExtractUserKey(token)
+            Guid userKey = _jwtHelper.ExtractUserKey(token)
                 ?? throw new ArgumentNullException(nameof(token), "Invalid or missing userKey in the token.");
 
             _trackingRepository.InsertTracking(userKey, trackingModel);

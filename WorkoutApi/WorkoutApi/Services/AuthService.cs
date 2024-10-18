@@ -6,10 +6,12 @@ namespace WorkoutApi.Services
     public class AuthService : IAuthService
     {
         private readonly IAuthRepository _authRepository;
+        private readonly IJwtHelper _jwtHelper;
 
-        public AuthService(IAuthRepository authRepository)
+        public AuthService(IAuthRepository authRepository, IJwtHelper jwtHelper)
         {
             _authRepository = authRepository;
+            _jwtHelper = jwtHelper;
         }
 
         /// <inheritdoc />
@@ -18,7 +20,7 @@ namespace WorkoutApi.Services
             Guid? userKey = _authRepository.AuthenticateUser(credentials);
             if(userKey != null)
             {
-                return JwtHelper.GenerateAccessToken(userKey);
+                return _jwtHelper.GenerateAccessToken(userKey);
             }
 
             return null;
@@ -30,7 +32,7 @@ namespace WorkoutApi.Services
             Guid? userKey = _authRepository.RegisterUser(credentials);
             if (userKey != null)
             {
-                return JwtHelper.GenerateAccessToken(userKey);
+                return _jwtHelper.GenerateAccessToken(userKey);
             }
 
             return null;

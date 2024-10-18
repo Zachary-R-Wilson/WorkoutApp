@@ -67,3 +67,9 @@ C:\Users\Steel\Desktop\WorkoutApp\WorkoutApi\WorkoutApi\obj\Debug\net8.0\Workout
 C:\Users\Steel\Desktop\WorkoutApp\WorkoutApi\WorkoutApi\obj\Debug\net8.0\ref\WorkoutApi.dll
 C:\Users\Steel\Desktop\WorkoutApp\WorkoutApi\WorkoutApi\bin\Debug\net8.0\BCrypt.Net-Next.dll
 C:\Users\Steel\Desktop\WorkoutApp\WorkoutApi\WorkoutApi\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Steel\Desktop\WorkoutApp\WorkoutApi\WorkoutApi\bin\Debug\net8.0\Castle.Core.dll
+C:\Users\Steel\Desktop\WorkoutApp\WorkoutApi\WorkoutApi\bin\Debug\net8.0\Moq.dll
+C:\Users\Steel\Desktop\WorkoutApp\WorkoutApi\WorkoutApi\bin\Debug\net8.0\xunit.abstractions.dll
+C:\Users\Steel\Desktop\WorkoutApp\WorkoutApi\WorkoutApi\bin\Debug\net8.0\xunit.assert.dll
+C:\Users\Steel\Desktop\WorkoutApp\WorkoutApi\WorkoutApi\bin\Debug\net8.0\xunit.core.dll
+C:\Users\Steel\Desktop\WorkoutApp\WorkoutApi\WorkoutApi\bin\Debug\net8.0\xunit.execution.dotnet.dll
