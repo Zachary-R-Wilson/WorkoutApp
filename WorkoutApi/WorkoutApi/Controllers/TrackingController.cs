@@ -21,6 +21,11 @@ namespace WorkoutApi.Controllers
         [HttpGet("GetProgress/{DayKey:guid}")]
         public IActionResult GetProgress(Guid DayKey)
         {
+            if (DayKey == Guid.Empty)
+            {
+                return BadRequest("DayKey is Required.");
+            }
+
             try
             {
                 var authHeader = Request.Headers["Authorization"].ToString();
@@ -44,6 +49,11 @@ namespace WorkoutApi.Controllers
         [HttpPost("InsertTracking")]
         public IActionResult InsertTracking([FromBody] TrackingModel trackingModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             try
             {
                 var authHeader = Request.Headers["Authorization"].ToString();

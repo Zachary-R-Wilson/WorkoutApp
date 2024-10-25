@@ -45,6 +45,11 @@ namespace WorkoutApi.Controllers
         [HttpPost("UpdateMaxes")]
         public IActionResult UpdateMaxes([FromBody] MaxModel maxModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             try
             {
                 var authHeader = Request.Headers["Authorization"].ToString();

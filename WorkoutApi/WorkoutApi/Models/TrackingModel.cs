@@ -1,4 +1,6 @@
-﻿namespace WorkoutApi.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace WorkoutApi.Models
 {
     public class TrackingModel
     {
@@ -12,10 +14,16 @@
 
     public class TrackingInfo
     {
+        [Required(ErrorMessage = "Date is Required.")]
         public DateTime Date { get; set; }
+
         public string? Weight { get; set; }
+
         public int? CompletedReps { get; set; }
+
         public int? RPE { get; set; }
+
+        [Required(ErrorMessage = "ExerciseKey is Required.")]
         public Guid ExerciseKey { get; set; }
     }
 

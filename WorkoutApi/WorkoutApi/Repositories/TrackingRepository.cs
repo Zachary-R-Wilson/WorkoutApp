@@ -112,50 +112,53 @@ namespace WorkoutApi.Repositories
         /// <param name="transaction">The connection to the sql database.</param>
         private void InsertInfo(TrackingInfo info, Guid userKey, IDbTransaction transaction)
         {
-            using (IDbCommand command = _connection.CreateCommand())
+            if (info.Weight != null || info.CompletedReps != null)
             {
-                command.CommandText = "InsertTracking";
-                command.Transaction = transaction;
-                command.CommandType = CommandType.StoredProcedure;
+                using (IDbCommand command = _connection.CreateCommand())
+                {
+                    command.CommandText = "InsertTracking";
+                    command.Transaction = transaction;
+                    command.CommandType = CommandType.StoredProcedure;
 
-                var exerciseKeyParameter = command.CreateParameter();
-                exerciseKeyParameter.ParameterName = "@ExerciseKey";
-                exerciseKeyParameter.DbType = DbType.Guid;
-                exerciseKeyParameter.Value = info.ExerciseKey;
-                command.Parameters.Add(exerciseKeyParameter);
+                    var exerciseKeyParameter = command.CreateParameter();
+                    exerciseKeyParameter.ParameterName = "@ExerciseKey";
+                    exerciseKeyParameter.DbType = DbType.Guid;
+                    exerciseKeyParameter.Value = info.ExerciseKey;
+                    command.Parameters.Add(exerciseKeyParameter);
 
-                var userKeyParameter = command.CreateParameter();
-                userKeyParameter.ParameterName = "@UserKey";
-                userKeyParameter.DbType = DbType.Guid;
-                userKeyParameter.Value = userKey;
-                command.Parameters.Add(userKeyParameter);
+                    var userKeyParameter = command.CreateParameter();
+                    userKeyParameter.ParameterName = "@UserKey";
+                    userKeyParameter.DbType = DbType.Guid;
+                    userKeyParameter.Value = userKey;
+                    command.Parameters.Add(userKeyParameter);
 
-                var dateParameter = command.CreateParameter();
-                dateParameter.ParameterName = "@Date";
-                dateParameter.DbType = DbType.Date;
-                dateParameter.Value = info.Date;
-                command.Parameters.Add(dateParameter);
+                    var dateParameter = command.CreateParameter();
+                    dateParameter.ParameterName = "@Date";
+                    dateParameter.DbType = DbType.Date;
+                    dateParameter.Value = info.Date;
+                    command.Parameters.Add(dateParameter);
 
-                var weightParameter = command.CreateParameter();
-                weightParameter.ParameterName = "@Weight";
-                weightParameter.DbType = DbType.String;
-                weightParameter.Size = 256;
-                weightParameter.Value = info.Weight;
-                command.Parameters.Add(weightParameter);
+                    var weightParameter = command.CreateParameter();
+                    weightParameter.ParameterName = "@Weight";
+                    weightParameter.DbType = DbType.String;
+                    weightParameter.Size = 256;
+                    weightParameter.Value = info.Weight;
+                    command.Parameters.Add(weightParameter);
 
-                var completedRepsParameter = command.CreateParameter();
-                completedRepsParameter.ParameterName = "@CompletedReps";
-                completedRepsParameter.DbType = DbType.Int32;
-                completedRepsParameter.Value = info.CompletedReps;
-                command.Parameters.Add(completedRepsParameter);
+                    var completedRepsParameter = command.CreateParameter();
+                    completedRepsParameter.ParameterName = "@CompletedReps";
+                    completedRepsParameter.DbType = DbType.Int32;
+                    completedRepsParameter.Value = info.CompletedReps;
+                    command.Parameters.Add(completedRepsParameter);
 
-                var rpeParameter = command.CreateParameter();
-                rpeParameter.ParameterName = "@RPE";
-                rpeParameter.DbType = DbType.Int32;
-                rpeParameter.Value = info.RPE;
-                command.Parameters.Add(rpeParameter);
+                    var rpeParameter = command.CreateParameter();
+                    rpeParameter.ParameterName = "@RPE";
+                    rpeParameter.DbType = DbType.Int32;
+                    rpeParameter.Value = info.RPE;
+                    command.Parameters.Add(rpeParameter);
 
-                object result = command.ExecuteScalar();
+                    object result = command.ExecuteScalar();
+                }
             }
         }
     }

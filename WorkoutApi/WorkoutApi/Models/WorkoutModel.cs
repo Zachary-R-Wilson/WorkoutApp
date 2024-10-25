@@ -6,6 +6,7 @@ namespace WorkoutApi.Models
     public class WorkoutModel
     {
         [Required(ErrorMessage = "Workout Name is Required.")]
+        [RequiredNotEmptyAttribute(ErrorMessage = "Workout Name cannot be empty or whitespace.")]
         public required string Name { get; set; }
 
         public Dictionary<string, List<Exercise>> Days { get; set; } = new Dictionary<string, List<Exercise>>();
@@ -14,9 +15,11 @@ namespace WorkoutApi.Models
     public class Exercise
     {
         [Required(ErrorMessage = "Exercise Name is Required.")]
+        [RequiredNotEmptyAttribute(ErrorMessage = "Exercise Name cannot be empty or whitespace.")]
         public required string Name { get; set; }
 
         [Required(ErrorMessage = "Exercise Reps are Required.")]
+        [RequiredNotEmptyAttribute(ErrorMessage = "Reps cannot be empty or whitespace.")]
         public required string Reps { get; set; }
        
         [Required(ErrorMessage = "Exercise Sets are Required.")]

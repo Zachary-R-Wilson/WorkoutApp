@@ -21,6 +21,11 @@ namespace WorkoutApi.Controllers
         [HttpPost("CreateWorkout")]
         public IActionResult CreateWorkout([FromBody] WorkoutModel workoutModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             try
             {
                 var authHeader = Request.Headers["Authorization"].ToString();
@@ -44,6 +49,11 @@ namespace WorkoutApi.Controllers
         [HttpPost("DeleteWorkout/{workoutKey:guid}")]
         public IActionResult DeleteWorkout(Guid workoutKey)
         {
+            if (workoutKey == Guid.Empty)
+            {
+                return BadRequest("WorkoutKey is Required.");
+            }
+
             try
             {
                 var authHeader = Request.Headers["Authorization"].ToString();
@@ -67,6 +77,11 @@ namespace WorkoutApi.Controllers
         [HttpGet("GetWorkout/{workoutKey:guid}")]
         public IActionResult GetWorkout(Guid workoutKey)
         {
+            if (workoutKey == Guid.Empty)
+            {
+                return BadRequest("WorkoutKey is Required.");
+            }
+
             try
             {
                 var authHeader = Request.Headers["Authorization"].ToString();

@@ -22,6 +22,11 @@ namespace WorkoutApi.Controllers
         [AllowAnonymous]
         public IActionResult Login([FromBody] LoginModel credentials)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             try
             {
                 var accessToken = _authService.AuthenticateUser(credentials);
@@ -43,6 +48,11 @@ namespace WorkoutApi.Controllers
         [AllowAnonymous]
         public IActionResult Register([FromBody] LoginModel credentials)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             try
             {
                 var accessToken = _authService.RegisterUser(credentials);

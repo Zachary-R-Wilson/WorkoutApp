@@ -3,18 +3,19 @@ using Microsoft.AspNetCore.Mvc;
 using WorkoutApi.Models;
 using WorkoutApi.Controllers;
 using WorkoutApi.Services;
+using System.ComponentModel.DataAnnotations;
 
 namespace WorkoutApi.Tests.ControllerTests
 {
     public class AuthControllerTests
     {
-        private readonly AuthController _authController;
-        private readonly Mock<IAuthService> _mockAuthService;
+        private readonly AuthController _controller;
+        private readonly Mock<IAuthService> _mockService;
 
         public AuthControllerTests()
         {
-            _mockAuthService = new Mock<IAuthService>();
-            _authController = new AuthController(_mockAuthService.Object);
+            _mockService = new Mock<IAuthService>();
+            _controller = new AuthController(_mockService.Object);
         }
 
         #region LoginTests
@@ -24,10 +25,10 @@ namespace WorkoutApi.Tests.ControllerTests
         {
             // Arrange
             var loginModel = new LoginModel { Email = "testing@email.com", Password = "password" };
-            _mockAuthService.Setup(x => x.AuthenticateUser(loginModel)).Returns("valid_token");
+            _mockService.Setup(x => x.AuthenticateUser(loginModel)).Returns("valid_token");
 
             // Act
-            var result = _authController.Login(loginModel);
+            var result = _controller.Login(loginModel);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
@@ -40,13 +41,36 @@ namespace WorkoutApi.Tests.ControllerTests
         {
             // Arrange
             var loginModel = new LoginModel { Email = "invalid@email.com", Password = "invalidPassword" };
-            _mockAuthService.Setup(x => x.AuthenticateUser(loginModel)).Returns((string)null);
+            _mockService.Setup(x => x.AuthenticateUser(loginModel)).Returns((string)null);
 
             // Act
-            var result = _authController.Login(loginModel);
+            var result = _controller.Login(loginModel);
 
             // Assert
             Assert.IsType<UnauthorizedObjectResult>(result);
+        }
+
+        [Fact]
+        public void Login_InvalidLoginModel_ReturnsBadRequest()
+        {
+            // Arrange
+            var loginModel = new LoginModel { Email = "", Password = null };
+
+            // Simulate model validation of dataModel
+            var validationContext = new ValidationContext(loginModel);
+            var validationResults = new List<ValidationResult>();
+            Validator.TryValidateObject(loginModel, validationContext, validationResults, true);
+
+            foreach (var validationResult in validationResults)
+            {
+                _controller.ModelState.AddModelError(validationResult.MemberNames.First(), validationResult.ErrorMessage);
+            }
+
+            // Act
+            var result = _controller.Login(loginModel);
+
+            // Assert
+            Assert.IsType<BadRequestObjectResult>(result);
         }
 
         [Fact]
@@ -54,10 +78,10 @@ namespace WorkoutApi.Tests.ControllerTests
         {
             // Arrange
             var loginModel = new LoginModel { Email = "testing@email.com", Password = "password" };
-            _mockAuthService.Setup(x => x.AuthenticateUser(loginModel)).Throws(SqlExceptionHelper.MakeSqlException());
+            _mockService.Setup(x => x.AuthenticateUser(loginModel)).Throws(SqlExceptionHelper.MakeSqlException());
 
             // Act
-            var result = _authController.Login(loginModel);
+            var result = _controller.Login(loginModel);
 
             // Assert
             var objectResult = Assert.IsType<ObjectResult>(result);
@@ -73,10 +97,10 @@ namespace WorkoutApi.Tests.ControllerTests
         {
             // Arrange
             var loginModel = new LoginModel { Email = "newTesting@email.com", Password = "password" };
-            _mockAuthService.Setup(x => x.RegisterUser(loginModel)).Returns("valid_token");
+            _mockService.Setup(x => x.RegisterUser(loginModel)).Returns("valid_token");
 
             // Act
-            var result = _authController.Register(loginModel);
+            var result = _controller.Register(loginModel);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
@@ -89,13 +113,36 @@ namespace WorkoutApi.Tests.ControllerTests
         {
             // Arrange
             var loginModel = new LoginModel { Email = "newInvalid@email.com", Password = "invalidPassword" };
-            _mockAuthService.Setup(x => x.RegisterUser(loginModel)).Returns((string)null);
+            _mockService.Setup(x => x.RegisterUser(loginModel)).Returns((string)null);
 
             // Act
-            var result = _authController.Register(loginModel);
+            var result = _controller.Register(loginModel);
 
             // Assert
             Assert.IsType<UnauthorizedObjectResult>(result);
+        }
+
+        [Fact]
+        public void Register_InvalidLoginModel_ReturnsBadRequest()
+        {
+            // Arrange
+            var loginModel = new LoginModel { Email = "", Password = null };
+
+            // Simulate model validation of dataModel
+            var validationContext = new ValidationContext(loginModel);
+            var validationResults = new List<ValidationResult>();
+            Validator.TryValidateObject(loginModel, validationContext, validationResults, true);
+
+            foreach (var validationResult in validationResults)
+            {
+                _controller.ModelState.AddModelError(validationResult.MemberNames.First(), validationResult.ErrorMessage);
+            }
+
+            // Act
+            var result = _controller.Register(loginModel);
+
+            // Assert
+            Assert.IsType<BadRequestObjectResult>(result);
         }
 
         [Fact]
@@ -103,10 +150,10 @@ namespace WorkoutApi.Tests.ControllerTests
         {
             // Arrange
             var loginModel = new LoginModel { Email = "testing@email.com", Password = "password" };
-            _mockAuthService.Setup(x => x.RegisterUser(loginModel)).Throws(SqlExceptionHelper.MakeSqlException());
+            _mockService.Setup(x => x.RegisterUser(loginModel)).Throws(SqlExceptionHelper.MakeSqlException());
 
             // Act
-            var result = _authController.Register(loginModel);
+            var result = _controller.Register(loginModel);
 
             // Assert
             var objectResult = Assert.IsType<ObjectResult>(result);
