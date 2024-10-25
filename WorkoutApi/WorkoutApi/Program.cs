@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Data.SqlClient;
 using Microsoft.IdentityModel.Tokens;
+using System.Data;
 using System.Text;
 using WorkoutApi.Repositories;
 using WorkoutApi.Services;
@@ -30,7 +31,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 // Register the SQL connection
-builder.Services.AddScoped<SqlConnection>(sp =>
+builder.Services.AddScoped<IDbConnection>(sp =>
 {
     var builder = new SqlConnectionStringBuilder
     {
