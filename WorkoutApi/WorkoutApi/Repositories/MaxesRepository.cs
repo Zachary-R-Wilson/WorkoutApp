@@ -64,10 +64,6 @@ namespace WorkoutApi.Repositories
             {
                 command.CommandText = "UpdateMaxes";
                 command.CommandType = CommandType.StoredProcedure;
-                //command.Parameters.Add(new SqlParameter("@UserKey", SqlDbType.UniqueIdentifier) { Value = userKey });
-                //command.Parameters.Add(new SqlParameter("@Squat", SqlDbType.Int) { Value = maxModel.Squat });
-                //command.Parameters.Add(new SqlParameter("@Deadlift", SqlDbType.Int) { Value = maxModel.Deadlift});
-                //command.Parameters.Add(new SqlParameter("@Benchpress", SqlDbType.Int) { Value = maxModel.Benchpress });
 
                 var userKeyParameter = command.CreateParameter();
                 userKeyParameter.ParameterName = "@UserKey";
