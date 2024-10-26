@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WorkoutApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5619e6073a19a006e83200593ff6c45185bff57e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7fabcf643ed545e0c08fd86f7a7489329447fcdf")]
 [assembly: System.Reflection.AssemblyProductAttribute("WorkoutApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WorkoutApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

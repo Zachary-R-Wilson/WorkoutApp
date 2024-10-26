@@ -1,23 +1,21 @@
 ﻿using Moq;
-using Microsoft.AspNetCore.Mvc;
 using WorkoutApi.Models;
 using WorkoutApi.Repositories;
 using WorkoutApi.Services;
-using WorkoutApi.Controllers;
 
 namespace WorkoutApi.Tests.ServiceTests
 {
     public class AuthServiceTests
     {
-        private readonly AuthService _authService;
-        private readonly Mock<IAuthRepository> _mockAuthRepository;
+        private readonly AuthService _service;
+        private readonly Mock<IAuthRepository> _mockRepository;
         private readonly Mock<IJwtHelper> _mockJwtHelper;
 
         public AuthServiceTests()
         {
-            _mockAuthRepository = new Mock<IAuthRepository>();
+            _mockRepository = new Mock<IAuthRepository>();
             _mockJwtHelper = new Mock<IJwtHelper>();
-            _authService = new AuthService(_mockAuthRepository.Object, _mockJwtHelper.Object);
+            _service = new AuthService(_mockRepository.Object, _mockJwtHelper.Object);
         }
 
         #region AuthenticateUser
@@ -30,12 +28,12 @@ namespace WorkoutApi.Tests.ServiceTests
             var userKey = Guid.NewGuid();
             var expectedToken = "valid_token";
 
-            _mockAuthRepository.Setup(x => x.AuthenticateUser(loginModel)).Returns(userKey);
+            _mockRepository.Setup(x => x.AuthenticateUser(loginModel)).Returns(userKey);
 
             _mockJwtHelper.Setup(x => x.GenerateAccessToken(userKey)).Returns(expectedToken);
 
             // Act
-            var result = _authService.AuthenticateUser(loginModel);
+            var result = _service.AuthenticateUser(loginModel);
 
             // Assert
             Assert.NotNull(result);
@@ -48,10 +46,10 @@ namespace WorkoutApi.Tests.ServiceTests
             // Arrange
             var loginModel = new LoginModel { Email = "invalid@email.com", Password = "password" };
 
-            _mockAuthRepository.Setup(x => x.AuthenticateUser(loginModel)).Returns((Guid?)null);
+            _mockRepository.Setup(x => x.AuthenticateUser(loginModel)).Returns((Guid?)null);
 
             // Act
-            var result = _authService.AuthenticateUser(loginModel);
+            var result = _service.AuthenticateUser(loginModel);
 
             // Assert
             Assert.Null(result);
@@ -70,12 +68,12 @@ namespace WorkoutApi.Tests.ServiceTests
             var userKey = Guid.NewGuid();
             var expectedToken = "valid_token";
 
-            _mockAuthRepository.Setup(x => x.AuthenticateUser(loginModel)).Returns(userKey);
+            _mockRepository.Setup(x => x.AuthenticateUser(loginModel)).Returns(userKey);
 
             _mockJwtHelper.Setup(x => x.GenerateAccessToken(userKey)).Returns(expectedToken);
 
             // Act
-            var result = _authService.AuthenticateUser(loginModel);
+            var result = _service.AuthenticateUser(loginModel);
 
             // Assert
             Assert.NotNull(result);
@@ -88,10 +86,10 @@ namespace WorkoutApi.Tests.ServiceTests
             // Arrange
             var loginModel = new LoginModel { Email = "invalid@email.com", Password = "password" };
 
-            _mockAuthRepository.Setup(x => x.AuthenticateUser(loginModel)).Returns((Guid?)null);
+            _mockRepository.Setup(x => x.AuthenticateUser(loginModel)).Returns((Guid?)null);
 
             // Act
-            var result = _authService.AuthenticateUser(loginModel);
+            var result = _service.AuthenticateUser(loginModel);
 
             // Assert
             Assert.Null(result);
