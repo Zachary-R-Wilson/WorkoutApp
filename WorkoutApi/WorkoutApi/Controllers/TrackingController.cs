@@ -72,5 +72,33 @@ namespace WorkoutApi.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e.ToString());
             }
         }
+
+        [Authorize]
+        [HttpGet("GetAnalysis/{DayKey:guid}")]
+        public IActionResult GetAnalysis(Guid DayKey)
+        {
+            if (DayKey == Guid.Empty)
+            {
+                return BadRequest("DayKey is Required.");
+            }
+
+            try
+            {
+                var authHeader = Request.Headers["Authorization"].ToString();
+
+                if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
+                {
+                    return Unauthorized("Missing or invalid Authorization header.");
+                }
+                var token = authHeader.Substring("Bearer ".Length).Trim();
+
+                List<AnalysisModel> analysis = _trackingService.GetAnalysis(token, DayKey);
+                return Ok(analysis);
+            }
+            catch (SqlException e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.ToString());
+            }
+        }
     }
 }

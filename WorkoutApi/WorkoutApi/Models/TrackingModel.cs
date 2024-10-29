@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 
 namespace WorkoutApi.Models
 {
@@ -49,5 +50,27 @@ namespace WorkoutApi.Models
         public int? CompletedReps { get; set; }
         public int? RPE { get; set; }
         public DateTime? Date { get; set; }
+    }
+
+    public class AnalysisModel
+    {
+        public AnalysisModel(TrackingProgress model)
+        {
+            this.Model = model;
+            this.Analysis = GenerateAnalysis();
+        }
+
+        public TrackingProgress Model { get; set; }
+        public string Analysis { get; set; }
+
+        private string GenerateAnalysis()
+        {
+            if (Model.RPE.HasValue && Model.RPE < 7)
+                return "Low effort, consider increasing intensity.";
+            else if (Model.RPE.HasValue && Model.RPE >= 7)
+                return "Good effort, maintain or adjust as needed.";
+            else
+                return "No RPE data available.";
+        }
     }
 }

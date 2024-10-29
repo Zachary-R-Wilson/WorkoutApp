@@ -18,5 +18,13 @@ namespace WorkoutApi.Services
         /// <param name="token">The bearer token.</param>
         /// <param name="trackingModel">The data that is being inserted into the database.</param>
         void InsertTracking(string token, TrackingModel trackingModel);
+
+        /// <summary>
+        /// Analyzes the workout and returns that analysis to the controller.
+        /// </summary>
+        /// <param name="token">The users jwt bearer token.</param>
+        /// <param name="dayKey">The day being analyzed.</param>
+        /// <returns>A analysis Model for the given workout.</returns>
+        List<AnalysisModel> GetAnalysis(string token, Guid dayKey);
     }
 }

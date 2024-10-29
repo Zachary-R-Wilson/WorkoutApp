@@ -177,5 +177,87 @@ namespace WorkoutApi.Tests.ControllerTests
         }
 
         #endregion
+
+        #region GetAnalysis
+
+        [Fact]
+        public void GetAnalysis_EmptyDayKey_ReturnsBadRequest()
+        {
+            // Arrange
+            var dayKey = Guid.Empty;
+
+            // Act
+            var result = _controller.GetAnalysis(dayKey);
+
+            // Assert
+            Assert.IsType<BadRequestObjectResult>(result);
+        }
+
+        [Fact]
+        public void GetAnalysis_MissingAuthorizationHeader_ReturnsUnauthorized()
+        {
+            // Arrange
+            var dayKey = Guid.NewGuid();
+            _controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext()
+            };
+
+            // Act
+            var result = _controller.GetAnalysis(dayKey);
+
+            // Assert
+            var unauthorizedResult = Assert.IsType<UnauthorizedObjectResult>(result);
+            Assert.Equal("Missing or invalid Authorization header.", unauthorizedResult.Value);
+        }
+
+        [Fact]
+        public void GetAnalysis_ValidRequest_ReturnsOk()
+        {
+            // Arrange
+            var expectedToken = "valid-token";
+            var dayKey = Guid.NewGuid();
+            var expectedAnalysis = new List<AnalysisModel>();
+            _controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext()
+            };
+            _controller.Request.Headers["Authorization"] = $"Bearer {expectedToken}";
+
+            _mockService.Setup(service => service.GetAnalysis(expectedToken, dayKey)).Returns(expectedAnalysis);
+
+            // Act
+            var result = _controller.GetAnalysis(dayKey);
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            Assert.Equal(expectedAnalysis, okResult.Value);
+        }
+
+
+        [Fact]
+        public void GetAnalysis_ServiceThrowsSqlException_ReturnsInternalServerError()
+        {
+            // Arrange
+            var expectedToken = "valid-token";
+            var dayKey = Guid.NewGuid();
+            var expectedAnalysis = new List<AnalysisModel>();
+            _controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext()
+            };
+            _controller.Request.Headers["Authorization"] = $"Bearer {expectedToken}";
+
+            _mockService.Setup(service => service.GetAnalysis(expectedToken, dayKey)).Throws(SqlExceptionHelper.MakeSqlException());
+
+            // Act
+            var result = _controller.GetAnalysis(dayKey);
+
+            // Assert
+            var statusCodeResult = Assert.IsType<ObjectResult>(result);
+            Assert.Equal(StatusCodes.Status500InternalServerError, statusCodeResult.StatusCode);
+        }
+
+        #endregion
     }
 }

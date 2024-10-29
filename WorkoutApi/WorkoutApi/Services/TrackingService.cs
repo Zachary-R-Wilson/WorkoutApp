@@ -32,5 +32,22 @@ namespace WorkoutApi.Services
 
             _trackingRepository.InsertTracking(userKey, trackingModel);
         }
+
+        /// <inheritdoc />
+        public List<AnalysisModel> GetAnalysis(string token, Guid dayKey)
+        {
+            Guid userKey = _jwtHelper.ExtractUserKey(token)
+                ?? throw new ArgumentNullException(nameof(token), "Invalid or missing userKey in the token.");
+
+            TrackingProgressModel trackingProgressModel = _trackingRepository.GetProgress(userKey, dayKey);
+
+            if (trackingProgressModel == null) return [];
+
+            var analysisList = trackingProgressModel.Exercises
+            .Select(kvp => new AnalysisModel(kvp.Value))
+            .ToList();
+
+            return analysisList;
+        }
     }
 }
