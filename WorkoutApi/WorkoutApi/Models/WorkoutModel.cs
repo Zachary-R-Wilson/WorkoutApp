@@ -18,6 +18,9 @@ namespace WorkoutApi.Models
         [RequiredNotEmptyAttribute(ErrorMessage = "Exercise Name cannot be empty or whitespace.")]
         public required string Name { get; set; }
 
+        [Required(ErrorMessage = "Order number is Required.")]
+        public required int Order { get; set; }
+
         [Required(ErrorMessage = "Exercise Reps are Required.")]
         [RequiredNotEmptyAttribute(ErrorMessage = "Reps cannot be empty or whitespace.")]
         public required string Reps { get; set; }

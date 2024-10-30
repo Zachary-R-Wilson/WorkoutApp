@@ -53,12 +53,10 @@ namespace WorkoutApi.Repositories
 
                     model.Days.Keys.ToList().ForEach(dayName =>
                     {
-                        int index = 0;
                         Guid dayKey = CreateDay(workoutKey, dayName, transaction);
                         model.Days[dayName].ForEach(exercise =>
                         {
-                            CreateExercise(dayKey, exercise, index, transaction);
-                            index++;
+                            CreateExercise(dayKey, exercise, transaction);
                         });
                     });
 
@@ -144,6 +142,7 @@ namespace WorkoutApi.Repositories
                         string exerciseName = reader.GetString(2);
                         string reps = reader.GetString(3);
                         int sets = reader.GetInt32(4);
+                        int order = reader.GetInt32(5);
 
                         if (!daysDictionary.ContainsKey(dayName))
                         {
@@ -153,6 +152,7 @@ namespace WorkoutApi.Repositories
                         daysDictionary[dayName].Add(new Exercise
                         {
                             Name = exerciseName,
+                            Order = order,
                             Reps = reps,
                             Sets = sets
                         });
@@ -254,7 +254,7 @@ namespace WorkoutApi.Repositories
         /// <param name="order">The order exercises are to be placed.</param
         /// <param name="transaction">The connection to the sql database.</param>
 
-        private void CreateExercise(Guid dayKey, Exercise exercise, int order, IDbTransaction transaction)
+        private void CreateExercise(Guid dayKey, Exercise exercise, IDbTransaction transaction)
         {
             using (IDbCommand command = _connection.CreateCommand())
             {
@@ -291,7 +291,7 @@ namespace WorkoutApi.Repositories
                 var orderParameter = command.CreateParameter();
                 orderParameter.ParameterName = "@Order";
                 orderParameter.DbType = DbType.Int32;
-                orderParameter.Value = order;
+                orderParameter.Value = exercise.Order;
                 command.Parameters.Add(orderParameter);
 
                 command.ExecuteNonQuery();
