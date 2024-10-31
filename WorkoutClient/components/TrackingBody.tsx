@@ -74,7 +74,7 @@ export function TrackingBody({ exerciseKey, exerciseName, sets, repRange, lastRe
 				<Separator />
 
 				<View style={styles.DataContainter}>
-					<View >
+					<View style={{justifyContent: "space-around"}}>
 						<Text style={styles.text}>{"Total Reps:"}</Text>
 						<Text style={styles.text}>{"Weight:"}</Text>
 						<Text style={styles.text}>{"RPE:"}</Text>
@@ -147,7 +147,6 @@ const styles = StyleSheet.create({
     textAlign:"center",
     fontSize:25,
     color:"#2F4858",
-    
 		marginVertical:5,
 	},
 });

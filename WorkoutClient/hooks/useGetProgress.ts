@@ -18,7 +18,7 @@ interface TrackingProgressModel {
   exercises: { [exerciseName: string]: TrackingProgress };
 }
 
-interface UseGetWorkoutResponse {
+interface UseGetProgress {
   getProgress: (dayKey:string) => Promise<void>;
   loadingProgress: boolean;
   errorProgress: string | undefined;
@@ -26,7 +26,7 @@ interface UseGetWorkoutResponse {
   progress: TrackingProgressModel | undefined;
 }
 
-const useGetProgress = (): UseGetWorkoutResponse => {
+const useGetProgress = (): UseGetProgress => {
   const [loadingProgress, setLoadingProgress] = useState<boolean>(false);
   const [errorProgress, setErrorProgress] = useState<string | undefined>(undefined);
   const [successProgress, setSuccessProgress] = useState<boolean>(false);

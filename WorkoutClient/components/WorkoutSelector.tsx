@@ -34,6 +34,19 @@ openDrawer: () => void, setDrawerContent: (element: JSX.Element) => void }) {
 		))}
 	</ScrollView>);
 
+const analyzeDayContent: JSX.Element = 
+(<ScrollView style={{width: "90%"}}>
+	{days && Object.entries(days).map(([dayName, dayKey]) => (
+		<Button
+			key={dayKey}
+			label={dayName}
+			pressFunc={() => {
+				router.push({ pathname:'/analysis', params: { workoutName:workoutName, dayKey:dayKey }});
+			}}
+		/>
+	))}
+</ScrollView>);
+
 	const editWorkoutContent: JSX.Element = 
 	(<View style={{width: "90%"}}>
 		{/* The Share feature button */}
@@ -44,6 +57,13 @@ openDrawer: () => void, setDrawerContent: (element: JSX.Element) => void }) {
 			<MaterialIcons name="share" size={58} color="#CCF6FF" />
 			<Text style={styles.drawerText}>Share</Text>
 		</Pressable> */}
+		<Pressable style={styles.drawerView}
+			onPress={() => {
+				setDrawerContent(analyzeDayContent);
+			}}>
+			<MaterialIcons name="analytics" size={58} color="#CCF6FF" />
+			<Text style={styles.drawerText}>Analyze Workout</Text>
+		</Pressable>
 		<Pressable style={styles.drawerView}
 			onPress={() => {
 				// router.push('/');
