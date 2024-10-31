@@ -10,5 +10,5 @@ BEGIN
 	EXEC [VerifyUserExercise] @ExerciseKey, @UserKey;
 
 	INSERT INTO [Tracking] 
-	VALUES (@Date, @Weight, @CompletedReps, @RPE, @ExerciseKey);
+	VALUES (@Date, @Weight, @CompletedReps, @RPE, NULL, @ExerciseKey);
 END;
