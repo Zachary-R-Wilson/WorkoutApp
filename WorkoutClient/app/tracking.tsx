@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { StyleSheet, View, FlatList, Dimensions, ViewToken } from "react-native";
+import { StyleSheet, View, FlatList, ScrollView, Dimensions, ViewToken } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TrackingBody } from "@/components/TrackingBody";
@@ -92,7 +92,7 @@ export default function Tracking()  {
       <Header title = {workoutName} />
       <Separator />
 
-      <View style={{ flex: 2 }}>
+      <ScrollView style={{width: "90%", alignSelf: "center", flex: 2 }}>
         <FlatList
           data={exercises}
           horizontal
@@ -117,7 +117,7 @@ export default function Tracking()  {
             </View>
           )}
         />
-      </View>
+      </ScrollView>
 
       <View style={styles.subcontainer}>
         <View style={{ width: "90%", marginVertical: 5}}>

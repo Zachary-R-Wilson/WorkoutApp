@@ -5,7 +5,8 @@ import { Button } from "@/components/Button";
 interface Exercise {
   name: string,
   reps: string,
-  sets: number
+  sets: number,
+  order: number
 }
 
 export default function NewDay({ isVisible, addExerciseClick, createDayClick, cancelDayClick, editExerciseClick, exercises, dayName, setDayName } : { isVisible:boolean, addExerciseClick: () => void, createDayClick: (dayName: string) => void, cancelDayClick: () => void, editExerciseClick: (idx:number) => void, exercises: Exercise[], dayName:string, setDayName:React.Dispatch<React.SetStateAction<string>> }) { 

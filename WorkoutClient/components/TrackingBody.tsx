@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, ScrollView, TextInput } from "react-native";
+import { StyleSheet, Text, View, TextInput, Dimensions } from "react-native";
 import { Separator } from "@/components/Separator";
-
-interface Days {
-  [key: string]: string;
-}
 
 interface TrackingInfo {
   date: string;
@@ -13,6 +9,13 @@ interface TrackingInfo {
   rpe?: number;
   exerciseKey: string;
 }
+
+const { width } = Dimensions.get('window');
+
+// Define responsive font sizes and dimensions
+const fontSizeScale = width / 375;
+const containerPadding = Math.min(width * 0.04, 10);
+const inputWidth = Math.max(width * 0.4, 150);
 
 export function TrackingBody({ exerciseKey, exerciseName, sets, repRange, lastReps, lastWeight, lastRpe, trackingInfo, updateTrackingModel } : { exerciseKey:string, exerciseName: string, sets: number, repRange: string, lastReps: string, lastWeight: string, lastRpe: string, trackingInfo:TrackingInfo, updateTrackingModel:(exerciseName: string, updatedInfo: TrackingInfo)=>void }) {
 	const handleRepsChange = (value: string) => {
@@ -44,7 +47,7 @@ export function TrackingBody({ exerciseKey, exerciseName, sets, repRange, lastRe
 	}, []);
 
   return (
-		<ScrollView style={styles.workoutScroll}>
+		<View style={styles.workoutScroll}>
  			<View style={styles.container} >
 				<Text style={styles.workoutTitle}>{exerciseName}</Text>
 				<Separator />
@@ -91,7 +94,7 @@ export function TrackingBody({ exerciseKey, exerciseName, sets, repRange, lastRe
 					</View>					
 				</View>
 			</View>
-    </ScrollView>
+    </View>
   );
 }
 
@@ -103,7 +106,7 @@ const styles = StyleSheet.create({
 		borderColor: "#CCF6FF",
 		borderWidth: 1,
 		borderRadius: 5,
-		margin:10
+		margin: containerPadding,
 	},
 
   workoutScroll: {
@@ -112,29 +115,30 @@ const styles = StyleSheet.create({
 
 	infoContainter: {
 		justifyContent: "space-between",
-		width: "90%",
+		alignSelf: "flex-start",
 		marginBottom: 10,
+		padding:5
 	},
 
 	DataContainter: {
 		flexDirection: "row",
-		width: "90%",
 		marginBottom: 10,
+		padding:5
 	},
 
 	workoutTitle: {
-		fontSize: 30,
+		fontSize: 30 * fontSizeScale,
 		fontWeight:"bold",
 		color: '#2F4858',
 	},
 
 	text: {
-		fontSize: 30,
+		fontSize: 20 * fontSizeScale,
 		color: '#2F4858',
 	},
 
 	textInput: {
-		width:"50%",
+		width: inputWidth,
 		borderWidth: 1,
 		borderRadius: 5,
     backgroundColor: "#CCF6FF",

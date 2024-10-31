@@ -21,7 +21,8 @@ enum createStates {
 interface Exercise {
   name: string,
   reps: string,
-  sets: number
+  sets: number,
+  order: number
 }
 
 export default function createWorkout() { 
@@ -37,6 +38,7 @@ export default function createWorkout() {
   const [exerciseName, setExerciseName] = useState("");
   const [sets, setSets] = useState("");
   const [repRange, setRepRange] = useState("");
+  const [order, setOrder] = useState("");
 
   useEffect(() => {
     if (success) router.push('/workouts');
@@ -51,19 +53,33 @@ export default function createWorkout() {
   }
 
   // Edit
-  const EditDayClick = (idx:number) => {
-    const dayKey = Object.keys(days)[idx];
-    setSelectedDayIdx(idx);
-    setDayName(dayKey);
-    setExerciseList([...days[dayKey]]);
-    setCreateState(createStates.Day);
-  }
+  const EditDayClick = (idx: number) => {
+    const dayKeys = Object.keys(days);
+    
+    if (idx >= 0 && idx < dayKeys.length) {
+      const dayKey = dayKeys[idx];
+      
+      setSelectedDayIdx(idx);
+      setDayName(dayKey);
+
+      const updatedExercises = days[dayKey].map((exercise, index) => ({
+        ...exercise,
+        order: index,
+      }));
+  
+      setExerciseList(updatedExercises);
+      setCreateState(createStates.Day);
+    } else {
+      console.error("Invalid day index:", idx);
+    }
+  };
 
   const EditExerciseClick = (idx:number) => {
     setSelectedExerciseIdx(idx);
     setExerciseName(exerciseList[idx].name);
     setSets(exerciseList[idx].sets.toString());
     setRepRange(exerciseList[idx].reps);
+    setOrder(idx.toString());
     setCreateState(createStates.Exercise);
   }
 
@@ -72,6 +88,7 @@ export default function createWorkout() {
     setExerciseName("");
     setSets("");
     setRepRange("");
+    setOrder("");
     setCreateState(createStates.Exercise);
   }
 
@@ -87,8 +104,9 @@ export default function createWorkout() {
     setCreateState(createStates.Workout);
   }
 
-  const CreateExerciseClick = (name:string, reps:string, sets:number) => {
-    const updatedExercise: Exercise = { name, reps, sets };
+  const CreateExerciseClick = (name:string, reps:string, sets:number) => {  
+    const newOrder = exerciseList.length;
+    const updatedExercise: Exercise = { name, reps, sets, order: newOrder };
 
     if (selectedExerciseIdx !== undefined) {
       const updatedExerciseList = [...exerciseList];

@@ -6,7 +6,8 @@ import { Button } from "@/components/Button";
 interface Exercise {
   name: string,
   reps: string,
-  sets: number
+  sets: number,
+  order: number
 }
 
 export default function NewExercise({ isVisible, createExerciseClick, cancelExerciseClick, exerciseName, setExerciseName, sets, setSets, repRange, setRepRange } : { isVisible:boolean, createExerciseClick: (name:string, reps:string, sets:number) => void, cancelExerciseClick: () => void, exerciseName:string, setExerciseName:React.Dispatch<React.SetStateAction<string>>, sets:string, setSets:React.Dispatch<React.SetStateAction<string>>, repRange:string, setRepRange:React.Dispatch<React.SetStateAction<string>>}) { 
