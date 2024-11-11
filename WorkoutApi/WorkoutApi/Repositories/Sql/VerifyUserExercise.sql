@@ -1,4 +1,4 @@
-﻿ALTER PROCEDURE [dbo].[VerifyUserExercise]
+﻿CREATE OR ALTER PROCEDURE [dbo].[VerifyUserExercise]
     @ExerciseKey UniqueIdentifier,
 	@UserKey UniqueIdentifier
 AS

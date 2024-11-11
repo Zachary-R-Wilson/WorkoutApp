@@ -1,4 +1,4 @@
-﻿ALTER PROCEDURE [dbo].[GetWorkout]
+﻿CREATE OR ALTER PROCEDURE [dbo].[GetWorkout]
     @WorkoutKey UniqueIdentifier,
 	@UserKey UniqueIdentifier
 AS

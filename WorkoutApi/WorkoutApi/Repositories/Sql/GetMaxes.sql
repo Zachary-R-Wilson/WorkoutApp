@@ -1,7 +1,4 @@
-﻿IF OBJECT_ID('GetMaxes', 'P') IS NOT NULL
-    DROP PROCEDURE GetMaxes;
-GO
-CREATE PROCEDURE GetMaxes
+﻿CREATE OR ALTER PROCEDURE [dbo].[GetMaxes]
     @UserKey UniqueIdentifier
 AS
 BEGIN

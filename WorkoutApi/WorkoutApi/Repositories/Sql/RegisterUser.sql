@@ -1,7 +1,4 @@
-﻿IF OBJECT_ID('RegisterUser', 'P') IS NOT NULL
-    DROP PROCEDURE RegisterUser;
-GO
-CREATE PROCEDURE RegisterUser
+﻿CREATE OR ALTER PROCEDURE [dbo].[RegisterUser]
 	@Email NVARCHAR(254),
 	@PasswordHash NVARCHAR(75)
 AS

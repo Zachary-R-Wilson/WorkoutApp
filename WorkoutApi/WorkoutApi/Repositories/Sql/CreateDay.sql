@@ -1,7 +1,4 @@
-﻿IF OBJECT_ID('CreateDay', 'P') IS NOT NULL
-    DROP PROCEDURE CreateDay;
-GO
-CREATE PROCEDURE CreateDay
+﻿CREATE OR ALTER PROCEDURE [dbo].[CreateDay]
 	@WorkoutKey Uniqueidentifier,
     @DayName NVARCHAR(256)
 AS

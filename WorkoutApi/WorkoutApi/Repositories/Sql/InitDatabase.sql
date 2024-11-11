@@ -1,34 +1,25 @@
-IF OBJECT_ID('[dbo].[Tracking]', 'U') IS NOT NULL
-DROP TABLE [dbo].[Tracking]
-GO
-IF OBJECT_ID('[dbo].[Exercises]', 'U') IS NOT NULL
-DROP TABLE [dbo].[Exercises]
-GO
-IF OBJECT_ID('[dbo].[Days]', 'U') IS NOT NULL
-DROP TABLE [dbo].[Days]
-GO
-IF OBJECT_ID('[dbo].[Workouts]', 'U') IS NOT NULL
-DROP TABLE [dbo].[Workouts]
-GO
-IF OBJECT_ID('[dbo].[Maxes]', 'U') IS NOT NULL
-DROP TABLE [dbo].[Maxes]
-GO
-IF OBJECT_ID('[dbo].[users]', 'U') IS NOT NULL
-DROP TABLE [dbo].[users]
-GO
-
 USE master
 GO
 
-IF NOT EXISTS (
-	SELECT [name]
-	FROM sys.databases
-	WHERE [name] = N'WorkoutDb'
-)
-CREATE DATABASE WorkoutTracker
+IF EXISTS (SELECT [name] FROM sys.databases WHERE [name] = N'WorkoutDb')
+BEGIN
+    ALTER DATABASE WorkoutDb SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+    DROP DATABASE WorkoutDb;
+END
 GO
 
-USE WorkoutDb
+CREATE DATABASE WorkoutDb;
+GO
+
+USE WorkoutDb;
+GO
+
+IF OBJECT_ID(N'[dbo].[Tracking]', 'U') IS NOT NULL DROP TABLE [dbo].[Tracking];
+IF OBJECT_ID(N'[dbo].[Exercises]', 'U') IS NOT NULL DROP TABLE [dbo].[Exercises];
+IF OBJECT_ID(N'[dbo].[Days]', 'U') IS NOT NULL DROP TABLE [dbo].[Days];
+IF OBJECT_ID(N'[dbo].[Workouts]', 'U') IS NOT NULL DROP TABLE [dbo].[Workouts];
+IF OBJECT_ID(N'[dbo].[Maxes]', 'U') IS NOT NULL DROP TABLE [dbo].[Maxes];
+IF OBJECT_ID(N'[dbo].[users]', 'U') IS NOT NULL DROP TABLE [dbo].[users];
 GO
 
 CREATE TABLE [dbo].[users]
@@ -36,7 +27,6 @@ CREATE TABLE [dbo].[users]
 	[userKey] uniqueidentifier NOT NULL PRIMARY KEY,
 	[email] NVARCHAR(254) NOT NULL,
 	[passwordHash] NVARCHAR(75) NOT NULL
-	ON DELETE CASCADE
 );
 GO
 CREATE TABLE [dbo].[Maxes]

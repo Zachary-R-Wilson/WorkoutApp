@@ -1,4 +1,4 @@
-﻿ALTER PROCEDURE [dbo].[InsertTracking]
+﻿CREATE OR ALTER PROCEDURE [dbo].[InsertTracking]
 	@ExerciseKey Uniqueidentifier,
 	@UserKey Uniqueidentifier,
     @Date Date,

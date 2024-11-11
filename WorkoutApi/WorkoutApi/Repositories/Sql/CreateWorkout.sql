@@ -1,7 +1,4 @@
-﻿IF OBJECT_ID('CreateWorkout', 'P') IS NOT NULL
-    DROP PROCEDURE CreateWorkout;
-GO
-CREATE PROCEDURE CreateWorkout
+﻿CREATE OR ALTER PROCEDURE [dbo].[CreateWorkout]
 	@UserKey Uniqueidentifier,
     @WorkoutName NVARCHAR(256)
 AS

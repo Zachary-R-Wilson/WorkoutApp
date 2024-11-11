@@ -1,4 +1,4 @@
-﻿ALTER PROCEDURE [dbo].[GetProgress]
+﻿CREATE OR ALTER PROCEDURE [dbo].[GetProgress]
 	@DayKey Uniqueidentifier,
 	@UserKey UniqueIdentifier
 AS

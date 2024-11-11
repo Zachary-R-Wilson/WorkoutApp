@@ -1,7 +1,4 @@
-﻿IF OBJECT_ID('GetAllWorkouts', 'P') IS NOT NULL
-    DROP PROCEDURE GetAllWorkouts;
-GO
-CREATE PROCEDURE GetAllWorkouts
+﻿CREATE OR ALTER PROCEDURE [dbo].[GetAllWorkouts]
     @UserKey UniqueIdentifier
 AS
 BEGIN

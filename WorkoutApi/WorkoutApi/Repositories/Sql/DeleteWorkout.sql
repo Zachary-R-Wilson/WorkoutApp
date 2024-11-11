@@ -1,4 +1,4 @@
-﻿ALTER PROCEDURE [dbo].[DeleteWorkout]
+﻿CREATE OR ALTER PROCEDURE [dbo].[DeleteWorkout]
 	@WorkoutKey Uniqueidentifier,
 	@UserKey UniqueIdentifier
 AS

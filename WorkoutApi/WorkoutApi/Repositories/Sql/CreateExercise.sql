@@ -1,4 +1,4 @@
-﻿ALTER PROCEDURE [dbo].[CreateExercise]
+﻿CREATE OR ALTER PROCEDURE [dbo].[CreateExercise]
 	@DayKey Uniqueidentifier,
     @ExerciseName NVARCHAR(256),
 	@ExerciseReps NVARCHAR(256),

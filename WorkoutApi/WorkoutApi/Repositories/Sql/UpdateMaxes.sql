@@ -1,7 +1,4 @@
-﻿IF OBJECT_ID('UpdateMaxes', 'P') IS NOT NULL
-    DROP PROCEDURE UpdateMaxes;
-GO
-CREATE PROCEDURE UpdateMaxes
+﻿CREATE OR ALTER PROCEDURE [dbo].[UpdateMaxes]
     @UserKey UNIQUEIDENTIFIER,
 	@Squat INTEGER,
 	@Deadlift INTEGER,
