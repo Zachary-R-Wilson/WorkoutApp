@@ -1,7 +1,5 @@
-# WorkoutApp
-This Project is an open-source app to be used in the gym. The app sets out to streamline the process of creating and tracking workouts, with additional features such as a workout analysis.
-This project is meant to showcase engineering skills that I have learned during my time at Kansas State University.
-
+# Z-MAN Workout App
+Z-MAN Workout App is an open-source full-stack application designed for gym environments. It aims to simplify the process of creating and tracking workouts while offering advanced features such as workout analysis. The application serves as a demonstration of the engineering skills I developed during my time at Kansas State University and through various internship experiences. It is built using React Native for the front-end interface and integrates with a C# API for efficient user data storage and retrieval.
 
 # About
 This is a Full Stack Application that uses the following Tools and programs:
