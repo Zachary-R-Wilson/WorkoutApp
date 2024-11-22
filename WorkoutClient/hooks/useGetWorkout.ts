@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Constants } from '../constants/constants';
 
 interface Days {
   [key: string]: string;
@@ -31,7 +32,7 @@ const useGetWorkout = (): UseGetWorkoutResponse => {
     try {
       const accessToken = await AsyncStorage.getItem('accessToken');
 
-      const response = await fetch(`http://localhost:8080/api/Workout/GetWorkout/${workoutKey}`, {
+      const response = await fetch(`${Constants.BASE_URL}/Workout/GetWorkout/${workoutKey}`, {
         method: 'GET',
         headers: { 
           'Content-Type': 'application/json', 

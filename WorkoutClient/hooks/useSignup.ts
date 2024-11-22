@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Constants } from '../constants/constants';
 
 interface UseSignupResponse {
   signup: (email: string, password: string) => Promise<void>;
@@ -18,7 +19,7 @@ const useSignup = (): UseSignupResponse => {
     setError(undefined);
 
     try {
-      const response = await fetch('http://localhost:8080/api/Auth/register', {
+      const response = await fetch(`${Constants.BASE_URL}/Auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 

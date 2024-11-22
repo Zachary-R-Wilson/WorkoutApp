@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Constants } from '../constants/constants';
+
 
 interface UseDeleteWorkoutResponse {
   deleteWorkout: (workoutKey:string) => Promise<void>;
@@ -20,7 +22,7 @@ const useDeleteWorkout = (): UseDeleteWorkoutResponse => {
     try {
       const accessToken = await AsyncStorage.getItem('accessToken');
 
-      const response = await fetch(`http://localhost:8080/api/Workout/DeleteWorkout/${workoutKey}`, {
+      const response = await fetch(`${Constants.BASE_URL}/Workout/DeleteWorkout/${workoutKey}`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json', 

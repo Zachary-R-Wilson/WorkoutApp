@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Constants } from '../constants/constants';
 
 interface MaxesResponse {
   squat: number,
@@ -26,7 +27,7 @@ const usePostMaxes = (): UsePostMaxesResponse => {
     try {
       const accessToken = await AsyncStorage.getItem('accessToken');
       
-      const response = await fetch('http://localhost:8080/api/Maxes/UpdateMaxes', {
+      const response = await fetch(`${Constants.BASE_URL}/Maxes/UpdateMaxes`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json', 
