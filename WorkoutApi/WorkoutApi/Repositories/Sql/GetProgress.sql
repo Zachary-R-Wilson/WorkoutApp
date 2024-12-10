@@ -1,4 +1,11 @@
-﻿CREATE OR ALTER PROCEDURE [dbo].[GetProgress]
+﻿USE [WorkoutDb]
+GO
+/****** Object:  StoredProcedure [dbo].[GetProgress]    Script Date: 12/8/2024 7:10:59 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER   PROCEDURE [dbo].[GetProgress]
 	@DayKey Uniqueidentifier,
 	@UserKey UniqueIdentifier
 AS
@@ -31,7 +38,8 @@ BEGIN
 		FROM [DAYS] D
 		JOIN Exercises E ON E.DayKey = D.DayKey
 		LEFT JOIN @RecentWorkout RW ON E.ExerciseKey = RW.ExerciseKey
-		WHERE D.DayKey = @DayKey;
+		WHERE D.DayKey = @DayKey
+		ORDER BY E.[Order];
 	ELSE
 		SELECT
 			D.[Name] AS 'DayName', 
@@ -41,5 +49,6 @@ BEGIN
 		JOIN Exercises E ON E.DayKey = D.DayKey
 		JOIN [Tracking] T ON T.ExerciseKey = E.ExerciseKey
 		JOIN @RecentWorkout RW ON T.LastWorkout = RW.LastWorkout
-		WHERE D.DayKey = @DayKey;
+		WHERE D.DayKey = @DayKey
+		ORDER BY E.[Order];
 END;
